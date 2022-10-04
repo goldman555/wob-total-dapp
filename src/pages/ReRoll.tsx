@@ -261,7 +261,7 @@ export default function ReRoll() {
                     <div className="main-part">
                         <div className="left">
                             <span className="f-28">Roll the Wobblebot to unlock a new degen</span>
-                            <div className="panel">
+                            <div className="panel reroll">
                                 <img src={Asset.logo_white}></img>
                                 <div className="col f-center rg-3">
                                     <span className="f-24">FIND THE PERFECT DEGEN WOB PFP</span>

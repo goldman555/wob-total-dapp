@@ -52,9 +52,10 @@
         img {
             width: 40px;
         }
+
     }
 
-    .panel {
+    .panel.reroll {
         border-radius: 15px;
         background-color: #222222;
         padding-top: 30px;
@@ -71,8 +72,24 @@
         img {
             width: 150px;
         }
-
     }
+
+    .panel.transform {
+        border-radius: 15px;
+        background-color: #222222;
+        padding-top: 30px;
+        padding-bottom: 50px;
+        display: flex;
+        flex-direction: column;
+        row-gap: 25px;
+        align-items: flex-start;
+        width: 100%;
+        min-height: 300px;
+
+        padding-left: 20px;
+        padding-right: 20px;
+    }
+
 }
 
 .s-btn {
@@ -84,6 +101,25 @@
     border-radius: 5px;
     color: white;
     font-family: monument;
+}
+
+.switch-button {
+    border-radius: 10px !important;
+    padding: 6px 16px;
+    background: #808080;
+    margin-right: 10px;
+    border-width: 0px;
+    color: white;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    font-family: monument;
+    font-size: 12px;
+    font-weight: 600;
+    height: 45px;
+    line-height: 50px;
+    max-width: 200px;
+    justify-content: center;
 }
 
 .btn {
