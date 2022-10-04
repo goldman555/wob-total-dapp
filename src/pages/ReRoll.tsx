@@ -22,14 +22,15 @@ import { useBlockchainContext } from "../provider";
 const BASEURL = process.env.REACT_APP_BASEURL;
 const WOBTOKEN = process.env.REACT_APP_WOBTOKEN;
 const RECEIVER = process.env.REACT_APP_RECEIVER;
-const SEND_AMOUNT = 1000;
+const SEND_AMOUNT = process.env.REACT_APP_SEND_AMOUNT_REROLL;
+const SEND_AMOUNT_SOL = process.env.REACT_APP_SEND_AMOUNT_SOL;
 const DECIMALS = process.env.REACT_APP_DECIMALS;
 const CLUSTER_RPC = process.env.REACT_APP_CLUSTER_RPC;
 
 
 export default function ReRoll() {
 
-    const [state, { }]: any = useBlockchainContext();
+    const [state, { transferToken, transferSol }]: any = useBlockchainContext();
 
     const wallet = useWallet();
     const connection = new anchor.web3.Connection(
@@ -99,58 +100,58 @@ export default function ReRoll() {
             return;
         }
 
-        let signer = new Keypair();
-        let token = new Token(
-            connection,
-            new PublicKey(WOBTOKEN!),
-            TOKEN_PROGRAM_ID,
-            signer
-        );
-        let tokenAccount = await token.getOrCreateAssociatedAccountInfo(
-            anchorWallet.publicKey
-        );
-        const associatedDestinationTokenAddr = await Token.getAssociatedTokenAddress(
-            token.associatedProgramId,
-            token.programId,
-            new PublicKey(WOBTOKEN!),
-            new PublicKey(RECEIVER!)
-        )
-        let instructions = [];
-        let result = await connection.getAccountInfo(associatedDestinationTokenAddr);
-        if (result == null) {
-            instructions.push(
-                Token.createAssociatedTokenAccountInstruction(
-                    token.associatedProgramId,
-                    token.programId,
-                    new PublicKey(WOBTOKEN!),
-                    associatedDestinationTokenAddr,
-                    new PublicKey(RECEIVER!),
-                    anchorWallet.publicKey
-                )
-            );
-        }
-        instructions.push(
-            Token.createTransferInstruction(
-                TOKEN_PROGRAM_ID,
-                tokenAccount.address,
-                associatedDestinationTokenAddr,
-                anchorWallet.publicKey,
-                [],
-                SEND_AMOUNT * Number(DECIMALS!)
-            )
-        );
+        // let signer = new Keypair();
+        // let token = new Token(
+        //     connection,
+        //     new PublicKey(WOBTOKEN!),
+        //     TOKEN_PROGRAM_ID,
+        //     signer
+        // );
+        // let tokenAccount = await token.getOrCreateAssociatedAccountInfo(
+        //     anchorWallet.publicKey
+        // );
+        // const associatedDestinationTokenAddr = await Token.getAssociatedTokenAddress(
+        //     token.associatedProgramId,
+        //     token.programId,
+        //     new PublicKey(WOBTOKEN!),
+        //     new PublicKey(RECEIVER!)
+        // )
+        // let instructions = [];
+        // let result = await connection.getAccountInfo(associatedDestinationTokenAddr);
+        // if (result == null) {
+        //     instructions.push(
+        //         Token.createAssociatedTokenAccountInstruction(
+        //             token.associatedProgramId,
+        //             token.programId,
+        //             new PublicKey(WOBTOKEN!),
+        //             associatedDestinationTokenAddr,
+        //             new PublicKey(RECEIVER!),
+        //             anchorWallet.publicKey
+        //         )
+        //     );
+        // }
+        // instructions.push(
+        //     Token.createTransferInstruction(
+        //         TOKEN_PROGRAM_ID,
+        //         tokenAccount.address,
+        //         associatedDestinationTokenAddr,
+        //         anchorWallet.publicKey,
+        //         [],
+        //         SEND_AMOUNT * Number(DECIMALS!)
+        //     )
+        // );
 
         try {
-            var transferTrx = new Transaction().add(
-                ...instructions
-            )
-            var signature = await wallet.sendTransaction(
-                transferTrx,
-                connection
-            )
+            // var transferTrx = new Transaction().add(
+            //     ...instructions
+            // )
+            // var signature = await wallet.sendTransaction(
+            //     transferTrx,
+            //     connection
+            // )
 
-            const response = await connection.confirmTransaction(signature, 'processed');
-
+            // const response = await connection.confirmTransaction(signature, 'processed');
+            await transferToken(SEND_AMOUNT);
             setLoading(true);
             let result = await reRoll();
             setLoading(false);
@@ -184,19 +185,20 @@ export default function ReRoll() {
             return;
         }
 
-        var transaction = new Transaction().add(SystemProgram.transfer({
-            fromPubkey: wallet.publicKey,
-            toPubkey: new PublicKey(RECEIVER!),
-            lamports: LAMPORTS_PER_SOL * 0.2
-        }))
-        transaction.feePayer = wallet.publicKey;
-        let blockhashObj = await connection.getRecentBlockhash();
-        transaction.recentBlockhash = await blockhashObj.blockhash;
-        var signature = await wallet.sendTransaction(
-            transaction,
-            connection
-        )
-        const response = await connection.confirmTransaction(signature, 'processed');
+        // var transaction = new Transaction().add(SystemProgram.transfer({
+        //     fromPubkey: wallet.publicKey,
+        //     toPubkey: new PublicKey(RECEIVER!),
+        //     lamports: LAMPORTS_PER_SOL * 0.2
+        // }))
+        // transaction.feePayer = wallet.publicKey;
+        // let blockhashObj = await connection.getRecentBlockhash();
+        // transaction.recentBlockhash = await blockhashObj.blockhash;
+        // var signature = await wallet.sendTransaction(
+        //     transaction,
+        //     connection
+        // )
+        // const response = await connection.confirmTransaction(signature, 'processed');
+        await transferSol(SEND_AMOUNT_SOL);
         setLoading(true);
         let result = await reRoll();
         setLoading(false);

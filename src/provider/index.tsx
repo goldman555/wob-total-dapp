@@ -15,6 +15,8 @@ const WOBTOKEN = process.env.REACT_APP_WOBTOKEN;
 const COLLECTION_NAME = process.env.REACT_APP_COLLECTION_NAME;
 const BURN_COLLECTION_NAME = process.env.REACT_APP_BURN_COLLECTION_NAME;
 const PROGRAM_ID = process.env.REACT_APP_PROGRAM_ID;
+const RECEIVER = process.env.REACT_APP_RECEIVER;
+const DECIMALS = process.env.REACT_APP_DECIMALS;
 const VAULT_PDA_SEEDS = 'NFT STAKING VAULT D';
 const POOL_SEEDS = 'NFT STAKING POOL D';
 const POOL_SIGNER_SEEDS = 'NFT STAKING POOL SIGNER D';
@@ -48,7 +50,6 @@ export default function Provider({ children }: any) {
     const [state, dispatch] = React.useReducer(reducer, INIT_STATE);
     const wallet1 = useWallet();
     const wallet = useAnchorWallet();
-    // const wallet1 = useAnchorWallet();
     const connection = new anchor.web3.Connection(
         process.env.REACT_APP_CLUSTER_RPC!
     );
@@ -148,64 +149,7 @@ export default function Provider({ children }: any) {
         const response = await connection.confirmTransaction(signature, 'processed');
     }
 
-    // const transferToken = async () => {
-    //     if (!anchorWallet) return;
-    //     let token = new splToken.Token(
-    //         connection,
-    //         new web3.PublicKey(WOBTOKEN),
-    //         splToken.TOKEN_PROGRAM_ID,
-    //         anchorWallet
-    //     );
-    //     let tokenAccount = await token.getOrCreateAssociatedAccountInfo(
-    //         anchorWallet.publicKey
-    //     );
-    //     const associatedDestinationTokenAddr = await splToken.Token.getAssociatedTokenAddress(
-    //         token.associatedProgramId,
-    //         token.programId,
-    //         new web3.PublicKey(WOBTOKEN),
-    //         new web3.PublicKey(RECEIVER)
-    //     )
-
-    //     console.log(`token::`, token)
-    //     console.log(`token accoujnt::`, tokenAccount)
-    //     console.log(`associatedDestinationTokenAddr::`, associatedDestinationTokenAddr)
-    //     let instructions = [];
-    //     let result = await connection.getAccountInfo(associatedDestinationTokenAddr);
-    //     if (result == null) {
-    //         instructions.push(
-    //             splToken.Token.createAssociatedTokenAccountInstruction(
-    //                 token.associatedProgramId,
-    //                 token.programId,
-    //                 new web3.PublicKey(WOBTOKEN),
-    //                 associatedDestinationTokenAddr,
-    //                 new web3.PublicKey(RECEIVER),
-    //                 wallet.publicKey
-    //             )
-    //         );
-    //     }
-    //     instructions.push(
-    //         splToken.Token.createTransferInstruction(
-    //             splToken.TOKEN_PROGRAM_ID,
-    //             tokenAccount.address,
-    //             associatedDestinationTokenAddr,
-    //             wallet.publicKey,
-    //             [],
-    //             SEND_AMOUNT * DECIMALS
-    //         )
-    //     );
-
-    //     setShowLoading(true);
-    //     var transferTrx = new web3.Transaction().add(
-    //         ...instructions
-    //     )
-    //     var signature = await wallet.sendTransaction(
-    //         transferTrx,
-    //         connection
-    //     )
-    //     const response = await connection.confirmTransaction(signature, 'processed');
-    // }
-
-    const transferToken = async () => {
+    const transferToken = async (send_amount: any) => {
         if (!wallet1.publicKey) return;
         let signer = new Keypair();
         let token = new Token(
@@ -217,12 +161,61 @@ export default function Provider({ children }: any) {
         let tokenAccount = await token.getOrCreateAssociatedAccountInfo(
             wallet1.publicKey
         );
-        // const associatedDestinationTokenAddr = await Token.getAssociatedTokenAddress(
-        //     token.associatedProgramId,
-        //     token.programId,
-        //     new PublicKey(WOBTOKEN!),
-        //     new PublicKey()
-        // )
+        const associatedDestinationTokenAddr = await Token.getAssociatedTokenAddress(
+            token.associatedProgramId,
+            token.programId,
+            new PublicKey(WOBTOKEN!),
+            new PublicKey(RECEIVER!)
+        )
+        let instructions = [];
+        let result = await connection.getAccountInfo(associatedDestinationTokenAddr);
+        if (result == null) {
+            instructions.push(
+                Token.createAssociatedTokenAccountInstruction(
+                    token.associatedProgramId,
+                    token.programId,
+                    new PublicKey(WOBTOKEN!),
+                    associatedDestinationTokenAddr,
+                    new PublicKey(RECEIVER!),
+                    wallet1.publicKey
+                )
+            );
+        }
+        instructions.push(
+            Token.createTransferInstruction(
+                TOKEN_PROGRAM_ID,
+                tokenAccount.address,
+                associatedDestinationTokenAddr,
+                wallet1.publicKey,
+                [],
+                Number(send_amount) * Number(DECIMALS!)
+            )
+        )
+        var transferTrx = new Transaction().add(
+            ...instructions
+        );
+        var signature = await wallet1.sendTransaction(
+            transferTrx,
+            connection
+        )
+        const response = await connection.confirmTransaction(signature, 'processed');
+    }
+
+    const transferSol = async (send_amount: any) => {
+        if (!wallet1.publicKey) return;
+        var transaction = new Transaction().add(SystemProgram.transfer({
+            fromPubkey: wallet1.publicKey,
+            toPubkey: new PublicKey(RECEIVER!),
+            lamports: LAMPORTS_PER_SOL * Number(send_amount)
+        }))
+        transaction.feePayer = wallet1.publicKey;
+        let blockhashObj = await connection.getRecentBlockhash();
+        transaction.recentBlockhash = await blockhashObj.blockhash;
+        var signature = await wallet1.sendTransaction(
+            transaction,
+            connection
+        )
+        const response = await connection.confirmTransaction(signature, 'processed');
     }
 
     const getNftList = async () => {
@@ -415,6 +408,8 @@ export default function Provider({ children }: any) {
                         getSolBalance,
                         getTokenBalance,
                         burn,
+                        transferToken,
+                        transferSol,
                     }
                 ],
                 [
@@ -423,6 +418,8 @@ export default function Provider({ children }: any) {
                     getSolBalance,
                     getTokenBalance,
                     burn,
+                    transferToken,
+                    transferSol,
                 ]
             )}
         >
