@@ -22,18 +22,13 @@ import assetPair from "../assetPair.json";
 /**
  *  CONSTANTS...
  */
-const COLLECTION_NAME = process.env.REACT_APP_COLLECTION_NAME;
 const BASEURL = process.env.REACT_APP_BASEURL;
-const WOBTOKEN = process.env.REACT_APP_WOBTOKEN;
-const RECEIVER = process.env.REACT_APP_RECEIVER;
-const SEND_AMOUNT = 1000;
-const DECIMALS = process.env.REACT_APP_DECIMALS;
 const CLUSTER_RPC = process.env.REACT_APP_CLUSTER_RPC;
 
 
 export default function Transformer() {
 
-    const [state, { }]: any = useBlockchainContext();
+    const [state, { burn }]: any = useBlockchainContext();
     const wallet = useWallet();
     const connection = new anchor.web3.Connection(
         CLUSTER_RPC!
@@ -71,16 +66,131 @@ export default function Transformer() {
     const [degenList, setDegenList] = useState<NFTInfo[]>([]);
 
     const nftClick = (nft: NFTInfo, type: any) => {
-        console.log(`nft::`, nft);
-        setMint(nft.mint.toBase58());
-        setId(nft.name);
-        assetPair.forEach((item: any) => {
-            if (item.addr == nft.mint.toBase58()) {
-                setPair(item);
-            }
-        });
+
+        if (type == true) {
+            console.log(`nft::`, nft);
+            setMint(nft.mint.toBase58());
+            setId(nft.name);
+            assetPair.forEach((item: any) => {
+                if (item.addr == nft.mint.toBase58()) {
+                    setPair(item);
+                }
+            });
+        } else {
+            // in this case Degen should be re-roll so we can not use that pair.
+            // we need to find out pair..
+            setMint(nft.mint.toBase58());
+            setId(nft.name);
+
+            assetPair.forEach((item: any) => {
+                if (item.addr == nft.mint.toBase58()) {
+                    item.content[2] = nft.jsonUrl;
+                    item.content[3] = nft.imageUrl;
+                    setPair(item);
+                }
+            });
+        }
+
         setType(type);
     }
+
+    const checkPermit = async () => {
+        let result = await axios.post(
+            `${BASEURL}/checkPermit`,
+            {
+                token: mint,
+                type: type
+            }
+        );
+        return result.data.result;
+    }
+
+    // const upgrade = async () => {
+    //     let permit = await checkPermit();
+    //     if (permit == false && burnList.length == 0) {
+    //         setAlertState({
+    //             ...alertState,
+    //             open: true,
+    //             message: "You should have to burn drug NFT to upgrade"
+    //         });
+    //         return;
+    //     }
+
+    //     if (permit == false && burnList.length > 0) {
+    //         if (type) {
+    //             await burn();
+    //         } else {
+    //             await transferToken();
+    //         }
+
+    //         let response = await axios.post(`${base_url}/update`, {
+    //             mint: mint,
+    //             type: type,
+    //             uri: type ? pair.content[2] : pair.content[0],
+    //             name: id
+    //         });
+    //         if (response.data.result == 'success') {
+    //             setTimeout(() => {
+    //                 setShowLoading(false);
+    //                 setAlertState({
+    //                     ...alertState,
+    //                     open: true,
+    //                     message: "Updated successfully!!!"
+    //                 })
+    //                 setTimeout(() => {
+    //                     document.location.reload();
+    //                 }, 5000);
+    //             }, 10000)
+    //         } else {
+    //             setTimeout(() => {
+    //                 setShowLoading(false);
+    //                 setAlertState({
+    //                     ...alertState,
+    //                     open: true,
+    //                     message: "Update Failed, Please try again!!!"
+    //                 })
+    //                 setTimeout(() => {
+    //                     document.location.reload();
+    //                 }, 5000);
+    //             }, 10000)
+    //         }
+    //     } else if (permit == true) {
+    //         setShowLoading(true);
+    //         let response = await axios.post(`${base_url}/update`, {
+    //             mint: mint,
+    //             type: type,
+    //             uri: type ? pair.content[2] : pair.content[0],
+    //             name: id
+    //         });
+
+    //         if (response.data.result == 'success') {
+    //             setTimeout(() => {
+    //                 setShowLoading(false);
+    //                 setAlertState({
+    //                     ...alertState,
+    //                     open: true,
+    //                     message: "Updated successfully!!!"
+    //                 })
+    //                 setTimeout(() => {
+    //                     document.location.reload();
+    //                 }, 5000);
+    //             }, 10000)
+    //         } else {
+    //             setTimeout(() => {
+    //                 setShowLoading(false);
+    //                 setAlertState({
+    //                     ...alertState,
+    //                     open: true,
+    //                     message: "Update Failed, Please try again!!!"
+    //                 })
+    //                 setTimeout(() => {
+    //                     document.location.reload();
+    //                 }, 5000);
+    //             }, 10000)
+    //         }
+
+    //     }
+    // }
 
     useEffect(() => {
         setWobBalance(state.tokenBalance);
@@ -148,32 +258,23 @@ export default function Transformer() {
                                     <span className="f-14 ml1">Balance- </span>
                                     <span className="f-14 ml1">{wobBalance} $WOB</span>
                                 </div>
-                                <div className="col f-1 fc mh-200">
+                                <div className="col f-1 f-center">
                                     {
                                         pair ?
                                             <>
-                                                <span className="f-14 mt4">You have selected {id}</span>
-                                                {/* <div className="nft-item" style={{ marginTop: '10%', marginBottom: '5%' }}>
-                                                    {pair && (
-                                                        <Image style={{ borderRadius: '10px !important', margin: '2%' }}
-                                                            src={type ? pair.content[1] : pair.content[3]}
-                                                        />
-                                                    )}
-                                                </div> */}
+                                                <span className="f-14 mb-4">You have selected {id}</span>
+                                                {pair && (
+                                                    <img className="selectedImg" src={type ? pair.content[1] : pair.content[3]} />
+                                                )}
 
                                                 {
                                                     <Icons.ArrowDown width={40} height={40} />
                                                 }
 
-                                                {/* <div className="nft-item" style={{ marginTop: '10%' }}>
-                                                    {pair && (
-                                                        <Image style={{ borderRadius: '10px !important', margin: '2%' }}
-                                                            src={type ? pair.content[3] : pair.content[1]}
-                                                        />
-                                                    )}
-                                                </div> */}
+                                                {pair && (
+                                                    <img className="selectedImg" src={type ? pair.content[3] : pair.content[1]} />
+                                                )}
                                                 <button className={'switch-button'} onClick={() => { }} style={{ marginTop: '10%' }}>{'transform'}</button>
-                                                {/* <button className={'switch-button'} onClick={transferToken} style={{ marginTop: '10%' }}>{'transform'}</button> */}
                                             </> :
                                             <p className="f-14">Select a wob to begin transformation</p>
                                     }

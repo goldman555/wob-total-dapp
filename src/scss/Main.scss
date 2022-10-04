@@ -74,6 +74,10 @@
         }
     }
 
+    /**
+        transform
+    */
+
     .panel.transform {
         border-radius: 15px;
         background-color: #222222;
@@ -88,6 +92,12 @@
 
         padding-left: 20px;
         padding-right: 20px;
+    }
+
+    .selectedImg {
+        width: 100px !important;
+        border-radius: 7px;
+        margin: 10px;
     }
 
 }
@@ -136,6 +146,7 @@
 .nft-img {
     width: 120px !important;
     height: 120px;
+    border-radius: 7px;
 }
 
 .void {
