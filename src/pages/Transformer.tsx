@@ -24,11 +24,11 @@ import assetPair from "../assetPair.json";
  */
 const BASEURL = process.env.REACT_APP_BASEURL;
 const CLUSTER_RPC = process.env.REACT_APP_CLUSTER_RPC;
-
+const SEND_AMOUNT = process.env.REACT_APP_SEND_AMOUNT_TRANSFORM;
 
 export default function Transformer() {
 
-    const [state, { burn }]: any = useBlockchainContext();
+    const [state, { burn, transferToken }]: any = useBlockchainContext();
     const wallet = useWallet();
     const connection = new anchor.web3.Connection(
         CLUSTER_RPC!
@@ -105,92 +105,84 @@ export default function Transformer() {
         return result.data.result;
     }
 
-    // const upgrade = async () => {
-    //     let permit = await checkPermit();
-    //     if (permit == false && burnList.length == 0) {
-    //         setAlertState({
-    //             ...alertState,
-    //             open: true,
-    //             message: "You should have to burn drug NFT to upgrade"
-    //         });
-    //         return;
-    //     }
+    const upgrade = async () => {
+        let permit = await checkPermit();
+        if (permit == false && state.burnList.length == 0) {
+            setAlertState({
+                ...alertState,
+                open: true,
+                message: "You should have to burn drug NFT to upgrade"
+            });
+            return;
+        }
+        if (permit == false && burnList.length > 0) {
+            if (type) {
+                await burn();
+            } else {
+                await transferToken(SEND_AMOUNT);
+            }
+            let response = await axios.post(`${BASEURL}/update`, {
+                mint: mint,
+                type: type,
+                uri: type ? pair.content[2] : pair.content[0],
+                name: id
+            });
+            if (response.data.result == 'success') {
+                setTimeout(() => {
+                    setAlertState({
+                        ...alertState,
+                        open: true,
+                        message: "Updated successfully!!!"
+                    })
+                    setTimeout(() => {
+                        document.location.reload();
+                    }, 5000);
+                }, 10000)
+            } else {
+                setTimeout(() => {
+                    setAlertState({
+                        ...alertState,
+                        open: true,
+                        message: "Update Failed, Please try again!!!"
+                    })
+                    setTimeout(() => {
+                        document.location.reload();
+                    }, 5000);
+                }, 10000)
+            }
+        } else if (permit == true) {
+            let response = await axios.post(`${BASEURL}/update`, {
+                mint: mint,
+                type: type,
+                uri: type ? pair.content[2] : pair.content[0],
+                name: id
+            });
 
-    //     if (permit == false && burnList.length > 0) {
-    //         if (type) {
-    //             await burn();
-    //         } else {
-    //             await transferToken();
-    //         }
-
-    //         let response = await axios.post(`${base_url}/update`, {
-    //             mint: mint,
-    //             type: type,
-    //             uri: type ? pair.content[2] : pair.content[0],
-    //             name: id
-    //         });
-    //         if (response.data.result == 'success') {
-    //             setTimeout(() => {
-    //                 setShowLoading(false);
-    //                 setAlertState({
-    //                     ...alertState,
-    //                     open: true,
-    //                     message: "Updated successfully!!!"
-    //                 })
-    //                 setTimeout(() => {
-    //                     document.location.reload();
-    //                 }, 5000);
-    //             }, 10000)
-    //         } else {
-    //             setTimeout(() => {
-    //                 setShowLoading(false);
-    //                 setAlertState({
-    //                     ...alertState,
-    //                     open: true,
-    //                     message: "Update Failed, Please try again!!!"
-    //                 })
-    //                 setTimeout(() => {
-    //                     document.location.reload();
-    //                 }, 5000);
-    //             }, 10000)
-    //         }
-    //     } else if (permit == true) {
-    //         setShowLoading(true);
-    //         let response = await axios.post(`${base_url}/update`, {
-    //             mint: mint,
-    //             type: type,
-    //             uri: type ? pair.content[2] : pair.content[0],
-    //             name: id
-    //         });
-
-    //         if (response.data.result == 'success') {
-    //             setTimeout(() => {
-    //                 setShowLoading(false);
-    //                 setAlertState({
-    //                     ...alertState,
-    //                     open: true,
-    //                     message: "Updated successfully!!!"
-    //                 })
-    //                 setTimeout(() => {
-    //                     document.location.reload();
-    //                 }, 5000);
-    //             }, 10000)
-    //         } else {
-    //             setTimeout(() => {
-    //                 setShowLoading(false);
-    //                 setAlertState({
-    //                     ...alertState,
-    //                     open: true,
-    //                     message: "Update Failed, Please try again!!!"
-    //                 })
-    //                 setTimeout(() => {
-    //                     document.location.reload();
-    //                 }, 5000);
-    //             }, 10000)
-    //         }
-
-    //     }
-    // }
+            if (response.data.result == 'success') {
+                setTimeout(() => {
+                    setAlertState({
+                        ...alertState,
+                        open: true,
+                        message: "Updated successfully!!!"
+                    })
+                    setTimeout(() => {
+                        document.location.reload();
+                    }, 5000);
+                }, 10000)
+            } else {
+                setTimeout(() => {
+                    setAlertState({
+                        ...alertState,
+                        open: true,
+                        message: "Update Failed, Please try again!!!"
+                    })
+                    setTimeout(() => {
+                        document.location.reload();
+                    }, 5000);
+                }, 10000)
+            }
+        }
+    }
 
     useEffect(() => {
         setWobBalance(state.tokenBalance);
@@ -274,7 +266,7 @@ export default function Transformer() {
                                                 {pair && (
                                                     <img className="selectedImg" src={type ? pair.content[3] : pair.content[1]} />
                                                 )}
-                                                <button className={'switch-button'} onClick={() => { }} style={{ marginTop: '10%' }}>{'transform'}</button>
+                                                <button className={'switch-button'} onClick={upgrade} style={{ marginTop: '10%' }}>{'transform'}</button>
                                             </> :
                                             <p className="f-14">Select a wob to begin transformation</p>
                                     }

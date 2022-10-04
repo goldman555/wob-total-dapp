@@ -7,6 +7,7 @@ import logo_red from '../../img/logo_red.png';
 import logo_white from '../../img/logo_white.svg';
 import speaker from '../../img/speaker.png';
 import token from '../../img/token.gif';
+import loading from '../../img/loading.gif';
 
 import loading_video from '../../img/loading.mp4';
 
@@ -19,5 +20,6 @@ export default {
     logo_white,
     speaker,
     token,
-    loading_video
+    loading_video,
+    loading,
 }
