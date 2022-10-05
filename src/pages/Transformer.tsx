@@ -28,7 +28,7 @@ const SEND_AMOUNT = process.env.REACT_APP_SEND_AMOUNT_TRANSFORM;
 
 export default function Transformer() {
 
-    const [state, { burn, transferToken }]: any = useBlockchainContext();
+    const [state, { burn, transferToken, showLoading }]: any = useBlockchainContext();
     const wallet = useWallet();
     const connection = new anchor.web3.Connection(
         CLUSTER_RPC!
@@ -57,7 +57,6 @@ export default function Transformer() {
     });
 
     const [mint, setMint] = useState<any>();
-    const [burnList, setBurnList] = useState<any[]>([]);
     const [id, setId] = useState<String>();
     const [pair, setPair] = useState<any>();
     const [type, setType] = useState<any>();
@@ -115,11 +114,13 @@ export default function Transformer() {
             });
             return;
         }
-        if (permit == false && burnList.length > 0) {
+        if (permit == false && state.burnList.length > 0) {
             if (type) {
                 await burn();
+                showLoading(true);
             } else {
                 await transferToken(SEND_AMOUNT);
+                showLoading(true);
             }
             let response = await axios.post(`${BASEURL}/update`, {
                 mint: mint,
@@ -127,6 +128,7 @@ export default function Transformer() {
                 uri: type ? pair.content[2] : pair.content[0],
                 name: id
             });
+            showLoading(false);
             if (response.data.result == 'success') {
                 setTimeout(() => {
                     setAlertState({
@@ -151,6 +153,7 @@ export default function Transformer() {
                 }, 10000)
             }
         } else if (permit == true) {
+            showLoading(true);
             let response = await axios.post(`${BASEURL}/update`, {
                 mint: mint,
                 type: type,
@@ -158,6 +161,7 @@ export default function Transformer() {
                 name: id
             });
 
+            showLoading(false);
             if (response.data.result == 'success') {
                 setTimeout(() => {
                     setAlertState({

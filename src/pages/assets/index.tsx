@@ -8,6 +8,7 @@ import logo_white from '../../img/logo_white.svg';
 import speaker from '../../img/speaker.png';
 import token from '../../img/token.gif';
 import loading from '../../img/loading.gif';
+import loading1 from '../../img/load.gif';
 
 import loading_video from '../../img/loading.mp4';
 
@@ -22,4 +23,5 @@ export default {
     token,
     loading_video,
     loading,
+    loading1,
 }

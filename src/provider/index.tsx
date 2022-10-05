@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { useAnchorWallet, useConnection, useWallet } from "@solana/wallet-adapter-react";
 import { Keypair, LAMPORTS_PER_SOL, PublicKey, SystemProgram, Transaction } from "@solana/web3.js";
 import * as anchor from "@project-serum/anchor";
@@ -7,6 +7,7 @@ import { getParsedNftAccountsByOwner } from '@nfteyez/sol-rayz';
 import axios from 'axios';
 import { IDL } from '../constant/IDL/wobStaking';
 import { NFTInfo, StateInfo } from '../../global';
+import assets from '../pages/assets';
 
 /**
  * CONSTANTS
@@ -48,6 +49,7 @@ const INIT_STATE: StateInfo = {
 export default function Provider({ children }: any) {
 
     const [state, dispatch] = React.useReducer(reducer, INIT_STATE);
+    const [loading, setLoading] = useState(false);
     const wallet1 = useWallet();
     const wallet = useAnchorWallet();
     const connection = new anchor.web3.Connection(
@@ -379,9 +381,14 @@ export default function Provider({ children }: any) {
 
     }
 
+    const showLoading = (state: any) => {
+        setLoading(state);
+    }
+
     useEffect(() => {
         (async () => {
             if (anchorWallet) {
+                showLoading(true);
                 let solBalance = await getSolBalance();
                 let wobBalance = await getTokenBalance(WOBTOKEN);
                 dispatch({
@@ -394,6 +401,7 @@ export default function Provider({ children }: any) {
                 })
                 await getNftList();
                 // await getStakedNftList();
+                showLoading(false);
             }
         })()
     }, [wallet, anchorWallet])
@@ -410,6 +418,7 @@ export default function Provider({ children }: any) {
                         burn,
                         transferToken,
                         transferSol,
+                        showLoading,
                     }
                 ],
                 [
@@ -420,10 +429,17 @@ export default function Provider({ children }: any) {
                     burn,
                     transferToken,
                     transferSol,
+                    showLoading,
                 ]
             )}
         >
-
+            {
+                loading &&
+                <div id="loading">
+                    <img src={assets.loading1} style={{ width: '15%' }}></img>
+                    <span>LOADING...</span>
+                </div>
+            }
             {children}
         </App.Provider>
     )
