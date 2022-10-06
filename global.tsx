@@ -18,6 +18,7 @@ export interface StateInfo {
     wobList: NFTInfo[],
     degenList: NFTInfo[],
     nftList: NFTInfo[],
-    burnList: any[]
+    burnList: any[],
+    stakeList: NFTInfo[]
 }
 

@@ -21,6 +21,7 @@ import "./App.scss";
 import "./scss/Common.scss";
 import Router from "./router";
 import BlockchainProvider from './provider';
+import { ToastProvider } from 'react-toast-notifications'
 
 require('@solana/wallet-adapter-react-ui/styles.css');
 
@@ -44,9 +45,11 @@ const App = () => {
         <ConnectionProvider endpoint={endpoint!}>
             <WalletProvider wallets={wallets} autoConnect={true}>
                 <WalletModalProvider>
-                    <BlockchainProvider>
-                        <Router />
-                    </BlockchainProvider>
+                    <ToastProvider>
+                        <BlockchainProvider>
+                            <Router />
+                        </BlockchainProvider>
+                    </ToastProvider>
                 </WalletModalProvider>
             </WalletProvider>
         </ConnectionProvider>

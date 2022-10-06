@@ -162,8 +162,6 @@ export const sendTransactions = async (
       // ...signers.map(s => s.publicKey),
     );
 
-    console.log(`..signers ::`, signers[0].publicKey.toString());
-
     // if (signers.length > 0) {
     //   transaction.partialSign(...signers);
     // }
@@ -171,14 +169,14 @@ export const sendTransactions = async (
     unsignedTxns.push(transaction);
   }
   unsignedTxns.push(...afterTransactions);
-  
+
   const partiallySignedTransactions = unsignedTxns.filter(t =>
     t.signatures.find(sig => sig.publicKey.equals(wallet.publicKey)),
   );
   const fullySignedTransactions = unsignedTxns.filter(
     t => !t.signatures.find(sig => sig.publicKey.equals(wallet.publicKey)),
   );
-  
+
   let signedTxns = await wallet.signAllTransactions(
     partiallySignedTransactions,
   );
