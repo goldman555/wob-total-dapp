@@ -175,6 +175,97 @@
 
 }
 
+.edit-modal-container {
+    font-family: monument;
+
+    width: 700px;
+    margin: auto;
+    margin-top: 100px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-direction: column;
+    background-color: #222222;
+    padding: 40px;
+    border-radius: 20px;
+    border: 0px solid white;
+
+
+    &>div {
+        width: 100%;
+    }
+
+    h2 {
+        margin: 0px;
+        padding: 0px;
+    }
+
+    .user-avatar {
+        // padding: 15px;
+        background-color: white;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border-radius: 50%;
+        color: black;
+        width: 100px;
+        height: 100px;
+    }
+
+    .address-btn {
+        border-radius: 5px;
+        padding: 8px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 10px;
+        background: grey;
+        color: white;
+        font-size: 18px;
+        font-family: 'monument';
+    }
+
+    .input {
+        border-radius: 3px;
+        background-color: rgb(61, 59, 59);
+        color: white;
+        padding: 10px 20px;
+        box-shadow: unset;
+        border: 1px grey solid;
+        outline: none;
+        width: 100%;
+        font-family: 'monument';
+    }
+
+
+    .update {
+        border-radius: 7px;
+        background-color: rgba(66, 81, 216, 0.671);
+        color: white;
+        font-size: 18px;
+        display: flex;
+        text-align: center;
+        align-items: center;
+        justify-content: center;
+        padding: 10px 25px;
+        font-family: 'monument';
+    }
+
+    .delete {
+        // margin-top: 10px;
+        border-radius: 7px;
+        background-color: rgba(206, 53, 26, 0.473);
+        color: white;
+        font-size: 18px;
+        display: flex;
+        text-align: center;
+        align-items: center;
+        justify-content: center;
+        padding: 10px 25px;
+        font-family: 'monument';
+    }
+}
+
 .s-btn {
     height: 30px;
     font-size: 14px;

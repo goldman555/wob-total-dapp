@@ -27,6 +27,7 @@ const POOL_SEEDS = 'NFT STAKING POOL D';
 const POOL_SIGNER_SEEDS = 'NFT STAKING POOL SIGNER D';
 const POOL_DATA_SEEDS = 'NFT STAKING DATA D';
 const DAYTIME = process.env.REACT_APP_DAYTIME;
+const BASEURL = process.env.REACT_APP_BASEURL;
 
 
 const App = React.createContext({});
@@ -540,14 +541,10 @@ export default function Provider({ children }: any) {
             await sendTransactions(connection, wallet, instructionSet, signerSet);
             let tempTokenAccount = nft.tokenAccount;
 
-            // let totalBalance = walletBalance - MINIUM_TOKEN_FOR_STAKING;
-            // setWalletBalance(totalBalance);
             nft.tokenAccount = new PublicKey(nft.tokenTo);
             nft.tokenTo = tempTokenAccount.toString();
             nft.daysPassed = 0;
 
-            // setWalletNfts(updatedWalletNfts);
-            // setStakedNfts([...stakedNfts, nft]);
             addToast("Staking success!", {
                 appearance: 'success',
                 autoDismiss: true,
@@ -555,11 +552,10 @@ export default function Provider({ children }: any) {
 
             console.log(`nft::`, nft);
 
-            // var axios = require('axios');
-            // let response = await axios.post(`${base_url}/stake`, {
-            //     ownerWallet: wallet.publicKey.toBase58(), nft: nft.mint.toString()
-            // });
-            // console.log(`response::`, response);
+            var axios = require('axios');
+            let response = await axios.post(`${BASEURL}/stake`, {
+                ownerWallet: wallet.publicKey.toBase58(), nft: nft.mint.toString()
+            });
 
             setLoading(false);
             // resetCurNft();
@@ -680,8 +676,6 @@ export default function Provider({ children }: any) {
             instructionSet.push(transaction);
             signerSet.push(signers);
 
-            console.log(`singerSet:::`, signerSet);
-
             await sendTransactions(connection, wallet, instructionSet, signerSet)
 
             let tempTokenAccount = nft.tokenAccount.toString();
@@ -698,10 +692,11 @@ export default function Provider({ children }: any) {
                 appearance: 'success',
                 autoDismiss: true,
             })
-            // var axios = require('axios');
-            // let response = await axios.post(`${}/unstake`, {
-            //     ownerWallet: wallet.publicKey.toBase58(), nft: nft.mint.toString()
-            // });
+            var axios = require('axios');
+            let response = await axios.post(`${BASEURL}/unstake`, {
+                ownerWallet: wallet.publicKey.toBase58(), nft: nft.mint.toString()
+            });
+
         } catch (error) {
             setLoading(false);
             addToast('Unstaking failed!', {
