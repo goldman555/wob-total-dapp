@@ -233,40 +233,26 @@ export default function Stake() {
         setUserEmail(event.target.value);
     }
 
-    const getUserProfile = async () => {
-
-        let result = await axios.post(
-            `${BASEURL}/getProfile`,
-            {
-                address: wallet?.publicKey.toString()
-            }
-        )
-        console.log(`getprofile::`, result);
-        if (result.data.result) {
-            setShowImage(result.data.result.image_url);
-            setUserEmail(result.data.result.email)
-        }
-    }
-
     useEffect(() => {
         (async () => {
             setWobBalance(state.tokenBalance);
             await getMetricsInfo();
-            await getUserProfile();
+            setUserEmail(state.userData.email);
+            setShowImage(state.userData.image);
             console.log(`state:::`, state.stakeList);
         })()
     }, [wallet, state])
 
     return (
         <>
-            <Header />
+            <Header title={'WOBBLEBUG STAKING'} />
             <div className="main">
                 <div className="container">
                     <div className="main-part">
                         <div className="left">
                             <div className="panel transform">
                                 <span>Staked NFTs</span>
-                                <div className="row wrap cg-2 rg-2">
+                                <div className="row wrap cg-2 rg-2 f-center">
                                     {
                                         state.stakeList.map((item: any, idx: any) => (
                                             <StakeNFT imgSrc={item.imageUrl} id={idx} nft={item} onClicks={[async () => { stakedNftClick(item) }]} key={idx}></StakeNFT>
@@ -282,7 +268,7 @@ export default function Stake() {
                             </div>
                             <div className="panel transform">
                                 <div>UnStaked NFTs</div>
-                                <div className='row wrap cg-2 rg-2' style={{ justifyContent: 'center' }}>
+                                <div className='row wrap cg-2 rg-2 f-center'>
                                     {
                                         state.nftList.map((item: any, idx: any) => (
                                             <UnStakeNFT imgSrc={item.imageUrl} id={idx} nft={item} onClicks={[async () => { }]} key={idx}></UnStakeNFT>
@@ -302,7 +288,7 @@ export default function Stake() {
 
                             <div className="panel transform">
                                 <div>Overall Staking Metrics</div>
-                                <div>
+                                <div className="w100">
                                     <Chart
                                         options={chartOption}
                                         series={chartSeries}

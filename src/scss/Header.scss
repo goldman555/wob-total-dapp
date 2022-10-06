@@ -3,12 +3,12 @@
     flex-direction: row;
     justify-content: space-between;
     padding: 10px 2vw;
-    background-color: #222222;
-    position: fixed;
     width: 100%;
+    font-size: 20px;
 
     img {
-        height: 40px;
+        height: 50px;
+        cursor: pointer;
     }
 
     .wallet-adapter-button-trigger {
@@ -17,4 +17,57 @@
         font-size: 13px;
         column-gap: 10px;
     }
+
+    .menu-item {
+        font-size: 16px;
+        color: grey;
+        cursor: pointer;
+        display: block;
+
+        @media (max-width: 800px) {
+            display: none;
+        }
+    }
+
+    .title {
+        display: block;
+
+        @media (max-width: 800px) {
+            display: none;
+        }
+    }
+
+    .menu {
+        display: block;
+
+        @media (max-width: 800px) {
+            display: none;
+        }
+    }
+
+}
+
+.menu-reverse {
+    display: none;
+
+    @media (max-width: 800px) {
+        display: block;
+    }
+
+    span {
+        cursor: pointer;
+        color: gray;
+
+        &:hover {
+            color: white;
+        }
+    }
+}
+
+.header-wrap {
+    display: flex;
+    flex-direction: column;
+    row-gap: 10px;
+    position: sticky;
+    top: 0;
 }

@@ -196,7 +196,7 @@ export default function Transformer() {
 
     return (
         <>
-            <Header />
+            <Header title={'WOBBLEBUG UPGRADE'} />
             <div className={"main"}>
                 <div className="container">
                     <div className="main-part">

@@ -203,7 +203,7 @@ export default function Store() {
 
     return (
         <>
-            <Header />
+            <Header title={'WOBBLEBUG STAKING'} />
             <div className="main">
                 <div className="container">
                     <div className="main-part">

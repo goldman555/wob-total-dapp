@@ -10,6 +10,9 @@ import token from '../../img/token.gif';
 import loading from '../../img/loading.gif';
 import loading1 from '../../img/load.gif';
 
+import face_logo from '../../img/face-logo.png';
+import logo1 from '../../img/logo1.svg';
+
 import loading_video from '../../img/loading.mp4';
 
 export default {
@@ -24,4 +27,6 @@ export default {
     loading_video,
     loading,
     loading1,
+    face_logo,
+    logo1,
 }

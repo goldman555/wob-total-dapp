@@ -51,6 +51,10 @@ const INIT_STATE: StateInfo = {
     nftList: [],
     burnList: [],
     stakeList: [],
+    userData: {
+        image: '',
+        email: ''
+    }
 }
 
 export default function Provider({ children }: any) {
@@ -552,6 +556,44 @@ export default function Provider({ children }: any) {
 
             console.log(`nft::`, nft);
 
+            let stakeList = state.stakeList;
+            // stakeList = stakeList.filter((NFT: NFTInfo) => NFT.mint !== nft.mint);
+            stakeList = [
+                ...stakeList,
+                nft
+            ]
+
+            dispatch({
+                type: "stakeList",
+                payload: stakeList
+            })
+
+            let walletNft = state.nftList;
+            let degenList = state.degenList;
+            let wobList = state.wobList;
+
+            if (nft.tokenType == 1) {
+                degenList = degenList.filter((NFT: NFTInfo) => NFT.mint !== nft.mint);
+            } else {
+                wobList = wobList.filter((NFT: NFTInfo) => NFT.mint !== nft.mint);
+            }
+            walletNft = walletNft.filter((NFT: NFTInfo) => NFT.mint !== nft.mint);
+
+            dispatch({
+                type: "nftList",
+                payload: walletNft
+            })
+
+            dispatch({
+                type: "degenList",
+                payload: degenList
+            })
+
+            dispatch({
+                type: "wobList",
+                payload: wobList
+            })
+
             var axios = require('axios');
             let response = await axios.post(`${BASEURL}/stake`, {
                 ownerWallet: wallet.publicKey.toBase58(), nft: nft.mint.toString()
@@ -616,6 +658,25 @@ export default function Provider({ children }: any) {
             signerSet.push([]);
 
             await sendTransactions(connection, wallet, instructionSet, signerSet)
+
+            let stakeList = state.stakeList;
+            stakeList = stakeList.map((stakeNFT: NFTInfo) => {
+                if (stakeNFT.mint == nft.mint) {
+                    return {
+                        ...stakeNFT,
+                        daysPassed: 0
+                    }
+                } else {
+                    return {
+                        ...stakeNFT
+                    }
+                }
+            })
+
+            dispatch({
+                type: "stakeList",
+                payload: stakeList
+            })
 
             // setWalletBalance(wallBalance);
             // setStakedNfts(stakedNfts.map(stakedNFT => {
@@ -688,15 +749,59 @@ export default function Provider({ children }: any) {
 
             // setWalletNfts([...walletNfts, nft]);
             // setStakedNfts(stakedNfts.filter(NFT => NFT.mint !== nft.mint));
-            addToast('Unstaking success!', {
-                appearance: 'success',
-                autoDismiss: true,
+
+            let stakeList = state.stakeList;
+            stakeList = stakeList.filter((NFT: NFTInfo) => NFT.mint !== nft.mint);
+
+            dispatch({
+                type: "stakeList",
+                payload: stakeList
             })
+
+            let walletNft = state.nftList;
+            let degenList = state.degenList;
+            let wobList = state.wobList;
+
+            if (nft.tokenType == 1) {
+                degenList = [
+                    ...degenList,
+                    nft
+                ];
+            } else {
+                wobList = [
+                    ...wobList,
+                    nft
+                ]
+            }
+            walletNft = [
+                ...walletNft,
+                nft
+            ]
+
+            dispatch({
+                type: "nftList",
+                payload: walletNft
+            })
+
+            dispatch({
+                type: "degenList",
+                payload: degenList
+            })
+
+            dispatch({
+                type: "wobList",
+                payload: wobList
+            })
+
             var axios = require('axios');
             let response = await axios.post(`${BASEURL}/unstake`, {
                 ownerWallet: wallet.publicKey.toBase58(), nft: nft.mint.toString()
             });
 
+            addToast('Unstaking success!', {
+                appearance: 'success',
+                autoDismiss: true,
+            })
         } catch (error) {
             setLoading(false);
             addToast('Unstaking failed!', {
@@ -910,6 +1015,25 @@ export default function Provider({ children }: any) {
         }
     }
 
+    const getUserProfile = async () => {
+
+        let result = await axios.post(
+            `${BASEURL}/getProfile`,
+            {
+                address: wallet?.publicKey.toString()
+            }
+        )
+        console.log(`getprofile::`, result);
+        let data = {
+            image: result.data.result.image_url,
+            email: result.data.result.email
+        }
+        dispatch({
+            type: "userData",
+            payload: data
+        })
+    }
+
     useEffect(() => {
         (async () => {
             if (anchorWallet) {
@@ -926,6 +1050,7 @@ export default function Provider({ children }: any) {
                 })
                 await getNftList();
                 await getStakedNftList();
+                await getUserProfile();
                 showLoading(false);
             }
         })()

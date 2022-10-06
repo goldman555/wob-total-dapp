@@ -185,19 +185,6 @@ export default function ReRoll() {
             return;
         }
 
-        // var transaction = new Transaction().add(SystemProgram.transfer({
-        //     fromPubkey: wallet.publicKey,
-        //     toPubkey: new PublicKey(RECEIVER!),
-        //     lamports: LAMPORTS_PER_SOL * 0.2
-        // }))
-        // transaction.feePayer = wallet.publicKey;
-        // let blockhashObj = await connection.getRecentBlockhash();
-        // transaction.recentBlockhash = await blockhashObj.blockhash;
-        // var signature = await wallet.sendTransaction(
-        //     transaction,
-        //     connection
-        // )
-        // const response = await connection.confirmTransaction(signature, 'processed');
         await transferSol(SEND_AMOUNT_SOL);
         setLoading(true);
         let result = await reRoll();
@@ -223,7 +210,6 @@ export default function ReRoll() {
     useEffect(() => {
 
         setAddrList([
-            'AWHb...DNNT',
         ]);
 
         (async () => {
@@ -247,7 +233,7 @@ export default function ReRoll() {
                     <span>RE-ROLLING...</span>
                 </div>
             }
-            <Header />
+            <Header title={'DEGEN RE-ROLL'} />
             <div className={loading ? "main mobile_disable" : "main"}>
                 <div className="container">
                     <div className="row between">

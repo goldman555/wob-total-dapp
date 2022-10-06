@@ -12,6 +12,11 @@ export interface NFTInfo {
     tokenTo: String,
 }
 
+export interface UserInfo {
+    image: String,
+    email: String
+}
+
 export interface StateInfo {
     solBalance: Number,
     tokenBalance: Number,
@@ -19,6 +24,7 @@ export interface StateInfo {
     degenList: NFTInfo[],
     nftList: NFTInfo[],
     burnList: any[],
-    stakeList: NFTInfo[]
+    stakeList: NFTInfo[],
+    userData: UserInfo,
 }
 
