@@ -11,6 +11,7 @@ import loading from '../../img/loading.gif';
 import loading1 from '../../img/load.gif';
 
 import face_logo from '../../img/face-logo.png';
+import face_logo1 from '../../img/face-logo1.png';
 import logo1 from '../../img/logo1.svg';
 
 import loading_video from '../../img/loading.mp4';
@@ -28,5 +29,6 @@ export default {
     loading,
     loading1,
     face_logo,
+    face_logo1,
     logo1,
 }

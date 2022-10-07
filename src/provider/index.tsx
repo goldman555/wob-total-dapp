@@ -1024,14 +1024,17 @@ export default function Provider({ children }: any) {
             }
         )
         console.log(`getprofile::`, result);
-        let data = {
-            image: result.data.result.image_url,
-            email: result.data.result.email
+
+        if (result.data.result) {
+            let data = {
+                image: result.data.result.image_url,
+                email: result.data.result.email
+            }
+            dispatch({
+                type: "userData",
+                payload: data
+            })
         }
-        dispatch({
-            type: "userData",
-            payload: data
-        })
     }
 
     useEffect(() => {

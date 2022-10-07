@@ -14,6 +14,7 @@ import { Snackbar } from "@material-ui/core";
 import Alert from "@material-ui/lab/Alert";
 import { AlertState } from "../utils";
 import { useBlockchainContext } from "../provider";
+import { useToasts } from 'react-toast-notifications';
 
 /**
  *  CONSTANTS...
@@ -31,7 +32,7 @@ const CLUSTER_RPC = process.env.REACT_APP_CLUSTER_RPC;
 export default function ReRoll() {
 
     const [state, { transferToken, transferSol }]: any = useBlockchainContext();
-
+    const { addToast } = useToasts();
     const wallet = useWallet();
     const connection = new anchor.web3.Connection(
         CLUSTER_RPC!
@@ -75,82 +76,29 @@ export default function ReRoll() {
             `${BASEURL}/get_number`,
             {
                 number: curNumber,
-                address: curNft.mint
+                address: curNft.mint,
+                wallet: wallet.publicKey?.toBase58()
             }
         );
     }
 
     const handleClickWob = async () => {
-        if (!anchorWallet?.publicKey) {
-            setAlertState({
-                ...alertState,
-                open: true,
-                message: "Wallet Connect First!",
-                severity: "info",
+        if (!wallet?.publicKey) {
+            addToast('Wallet Connect First!', {
+                appearance: "warning",
+                autoDismiss: true
             })
             return;
         }
         if (!curNft) {
-            setAlertState({
-                ...alertState,
-                open: true,
-                message: "Please select Nft!",
-                severity: "error",
+            addToast('Please Select Nft!', {
+                appearance: "warning",
+                autoDismiss: true
             })
             return;
         }
 
-        // let signer = new Keypair();
-        // let token = new Token(
-        //     connection,
-        //     new PublicKey(WOBTOKEN!),
-        //     TOKEN_PROGRAM_ID,
-        //     signer
-        // );
-        // let tokenAccount = await token.getOrCreateAssociatedAccountInfo(
-        //     anchorWallet.publicKey
-        // );
-        // const associatedDestinationTokenAddr = await Token.getAssociatedTokenAddress(
-        //     token.associatedProgramId,
-        //     token.programId,
-        //     new PublicKey(WOBTOKEN!),
-        //     new PublicKey(RECEIVER!)
-        // )
-        // let instructions = [];
-        // let result = await connection.getAccountInfo(associatedDestinationTokenAddr);
-        // if (result == null) {
-        //     instructions.push(
-        //         Token.createAssociatedTokenAccountInstruction(
-        //             token.associatedProgramId,
-        //             token.programId,
-        //             new PublicKey(WOBTOKEN!),
-        //             associatedDestinationTokenAddr,
-        //             new PublicKey(RECEIVER!),
-        //             anchorWallet.publicKey
-        //         )
-        //     );
-        // }
-        // instructions.push(
-        //     Token.createTransferInstruction(
-        //         TOKEN_PROGRAM_ID,
-        //         tokenAccount.address,
-        //         associatedDestinationTokenAddr,
-        //         anchorWallet.publicKey,
-        //         [],
-        //         SEND_AMOUNT * Number(DECIMALS!)
-        //     )
-        // );
-
         try {
-            // var transferTrx = new Transaction().add(
-            //     ...instructions
-            // )
-            // var signature = await wallet.sendTransaction(
-            //     transferTrx,
-            //     connection
-            // )
-
-            // const response = await connection.confirmTransaction(signature, 'processed');
             await transferToken(SEND_AMOUNT);
             setLoading(true);
             let result = await reRoll();
@@ -167,20 +115,16 @@ export default function ReRoll() {
     const handleClickSol = async () => {
 
         if (!wallet?.publicKey) {
-            setAlertState({
-                ...alertState,
-                open: true,
-                message: "Wallet Connect First!",
-                severity: "info",
+            addToast('Wallet Connect First!', {
+                appearance: "warning",
+                autoDismiss: true
             })
             return;
         }
         if (!curNft) {
-            setAlertState({
-                ...alertState,
-                open: true,
-                message: "Please select Nft!",
-                severity: "error",
+            addToast('Please Select Nft!', {
+                appearance: "warning",
+                autoDismiss: true
             })
             return;
         }

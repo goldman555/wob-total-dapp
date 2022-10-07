@@ -126,6 +126,11 @@ export default function Stake() {
         setCurType(true);
     }
 
+    const unstakedNftClick = (nft: NFTInfo) => {
+        setCurNft(nft);
+        setCurType(false);
+    }
+
     const getMetricsInfo = async () => {
         var axios = require('axios');
         let response;
@@ -252,7 +257,7 @@ export default function Stake() {
                         <div className="left">
                             <div className="panel transform">
                                 <span>Staked NFTs</span>
-                                <div className="row wrap cg-2 rg-2 f-center">
+                                <div className="row wrap cg-2 rg-2 w100">
                                     {
                                         state.stakeList.map((item: any, idx: any) => (
                                             <StakeNFT imgSrc={item.imageUrl} id={idx} nft={item} onClicks={[async () => { stakedNftClick(item) }]} key={idx}></StakeNFT>
@@ -268,23 +273,22 @@ export default function Stake() {
                             </div>
                             <div className="panel transform">
                                 <div>UnStaked NFTs</div>
-                                <div className='row wrap cg-2 rg-2 f-center'>
+                                <div className='row wrap cg-2 rg-2 w100'>
                                     {
                                         state.nftList.map((item: any, idx: any) => (
-                                            <UnStakeNFT imgSrc={item.imageUrl} id={idx} nft={item} onClicks={[async () => { }]} key={idx}></UnStakeNFT>
+                                            <UnStakeNFT imgSrc={item.imageUrl} id={idx} nft={item} onClicks={[async () => { unstakedNftClick(item) }]} key={idx}></UnStakeNFT>
                                         ))
                                     }
                                     {
                                         state.nftList.length == 0 &&
-                                        <div className='col' style={{ justifyContent: 'center', alignItems: 'center', marginTop: '80px' }}>
+                                        <div className='col' style={{ justifyContent: 'center', alignItems: 'center', marginTop: '80px', width: '100%' }}>
                                             <span>You have no Eligible Wobs to stake</span>
                                             <button className='profile-button' onClick={() => { window.open('https://magiceden.io/', '_blank') }}>Buy on Magic Eden</button>
                                         </div>
                                     }
                                 </div>
-                                <div style={{ textAlign: 'center', margin: '20px', cursor: 'pointer' }} onClick={() => { }}>Learn More about the nesting</div>
+                                <div style={{ textAlign: 'center', marginTop: '30px', cursor: 'pointer', width: '100%', fontSize: '14px' }} onClick={() => { }}>Learn More about the nesting</div>
                             </div>
-
 
                             <div className="panel transform">
                                 <div>Overall Staking Metrics</div>
@@ -322,7 +326,7 @@ export default function Stake() {
                             <div className='panel-right'>
                                 <div className='row f-center'>
                                     <img src={Asset.logo_white} style={{ width: '50px', borderRadius: '50px', marginRight: '10px' }}></img>
-                                    <div className='f-14'>Collector Dashboard</div>
+                                    <div className='f-16'>Collector Dashboard</div>
                                 </div>
                                 <button className='profile-button' onClick={() => { navigation('/stake/store') }}>View My Portfolio</button>
                                 <button className='profile-button' onClick={() => { setOpen(true) }}>Edit Profile</button>

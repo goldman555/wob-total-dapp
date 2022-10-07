@@ -240,7 +240,7 @@ export default function Transformer() {
                             <div className="panel transform">
                                 <div className="row">
                                     <img src={Asset.logo_white} style={{ height: '50px' }}></img>
-                                    <span className="f-14 ml1">Collector Dashboard</span>
+                                    <span className="f-16 ml-1">Collector Dashboard</span>
                                 </div>
                                 <div className="col rg-1">
                                     <button className="switch-button">View My Portfolio</button>
@@ -248,11 +248,11 @@ export default function Transformer() {
                                 </div>
                                 <div className="row">
                                     <img src={Asset.token} style={{ height: '50px' }}></img>
-                                    <span className="f-14 ml1">WOB TOKEN</span>
+                                    <span className="f-14 ml-1">WOB TOKEN</span>
                                 </div>
                                 <div className="row mt2">
-                                    <span className="f-14 ml1">Balance- </span>
-                                    <span className="f-14 ml1">{wobBalance} $WOB</span>
+                                    <span className="f-14 ml-1">Balance- </span>
+                                    <span className="f-14 ml-1">{wobBalance} $WOB</span>
                                 </div>
                                 <div className="col f-1 f-center">
                                     {

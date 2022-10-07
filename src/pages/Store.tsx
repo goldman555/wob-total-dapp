@@ -278,7 +278,7 @@ export default function Store() {
                             <div className='panel-right'>
                                 <div className='row f-center'>
                                     <img src={Asset.logo_white} style={{ width: '50px', borderRadius: '50px', marginRight: '10px' }}></img>
-                                    <div className='f-14'>Collector Dashboard</div>
+                                    <div className='f-16'>Collector Dashboard</div>
                                 </div>
                                 <button className='profile-button' onClick={() => { setOpen(true) }}>Edit Profile</button>
                                 <Modal

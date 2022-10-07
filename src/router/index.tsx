@@ -5,6 +5,8 @@ import Welcome from "../pages/Welcome";
 import Stake from "../pages/Stake";
 import Transformer from "../pages/Transformer";
 import Store from "../pages/Store";
+import Lore from '../pages/Lore';
+import MusicGroup from "../pages/MusicGroup";
 
 export default function Router() {
     return (
@@ -15,6 +17,8 @@ export default function Router() {
                 <Route path="/stake/store" element={<Store />} />
                 <Route path="/transformer" element={<Transformer />} />
                 <Route path="/" element={<Welcome />} />
+                <Route path="/lore" element={<Lore />} />
+                <Route path="/musicgroup" element={<MusicGroup />} />
             </Routes>
         </BrowserRouter>
     )

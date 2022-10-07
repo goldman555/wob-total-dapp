@@ -4,9 +4,10 @@
     justify-content: space-between;
     padding: 10px 2vw;
     width: 100%;
+    background-color: #222222;
     font-size: 20px;
 
-    img {
+    .head-logo {
         height: 50px;
         cursor: pointer;
     }
@@ -70,4 +71,15 @@
     row-gap: 10px;
     position: sticky;
     top: 0;
+}
+
+.MuiPaper-root.MuiPaper-elevation {
+    background-color: black !important;
+    color: white !important;
+}
+
+.MuiButtonBase-root.MuiMenuItem-root.MuiMenuItem-gutters.MuiMenuItem-root {
+
+    font-family: monument !important;
+
 }
