@@ -15,6 +15,7 @@ import Alert from "@material-ui/lab/Alert";
 import { AlertState } from "../utils";
 import { useBlockchainContext } from "../provider";
 import { useToasts } from 'react-toast-notifications';
+import { RerollInfo } from "../../global";
 
 /**
  *  CONSTANTS...
@@ -80,6 +81,10 @@ export default function ReRoll() {
                 wallet: wallet.publicKey?.toBase58()
             }
         );
+    }
+
+    const prettyAddr = (addr: String) => {
+        return addr.slice(0, 6) + '...' + addr.slice(40, 44);
     }
 
     const handleClickWob = async () => {
@@ -153,14 +158,21 @@ export default function ReRoll() {
 
     useEffect(() => {
 
-        setAddrList([
-        ]);
+        // setAddrList(state.rerollMember);
 
         (async () => {
             if (anchorWallet) {
                 setSolBalance(state.solBalance);
                 setWobBalance(state.tokenBalance);
                 setNftList(state.degenList);
+
+                let list: any[] = [];
+
+                state.rerollMember.forEach((item: any) => {
+                    list.push(`${prettyAddr(item.wallet)} - ${item.count} ReRoll`);
+                })
+
+                setAddrList(list);
             }
         })()
 
@@ -240,9 +252,7 @@ export default function ReRoll() {
                                 <div className="row cg-1" key={key}>
                                     <img src={Asset.logo_red}></img>
                                     <div className="row wrap">
-                                        <span>{key}.</span>
                                         <span>{item}</span>
-                                        <span>20 ROLLS</span>
                                     </div>
                                 </div>
                             ))}

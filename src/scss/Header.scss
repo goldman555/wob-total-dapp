@@ -2,10 +2,8 @@
     display: flex;
     flex-direction: row;
     justify-content: space-between;
-    padding: 10px 2vw;
-    width: 100%;
-    background-color: #222222;
     font-size: 20px;
+    padding: 10px;
 
     .head-logo {
         height: 50px;
@@ -48,29 +46,14 @@
 
 }
 
-.menu-reverse {
-    display: none;
-
-    @media (max-width: 800px) {
-        display: block;
-    }
-
-    span {
-        cursor: pointer;
-        color: gray;
-
-        &:hover {
-            color: white;
-        }
-    }
-}
-
 .header-wrap {
     display: flex;
-    flex-direction: column;
-    row-gap: 10px;
-    position: sticky;
+    justify-content: center;
+    position: fixed;
     top: 0;
+    height: 70px;
+    width: 100%;
+    background-color: #222222;
 }
 
 .MuiPaper-root.MuiPaper-elevation {

@@ -54,7 +54,8 @@ const INIT_STATE: StateInfo = {
     userData: {
         image: '',
         email: ''
-    }
+    },
+    rerollMember: []
 }
 
 export default function Provider({ children }: any) {
@@ -1037,24 +1038,58 @@ export default function Provider({ children }: any) {
         }
     }
 
+    const getRerollData = async () => {
+
+        let result = await axios.post(
+            `${BASEURL}/get_reroll_member`,
+        );
+
+        let list: any[] = [];
+        console.log(`getrerolldata::`, result);
+        if (result.data.member) {
+            result.data.member.forEach((item: any) => {
+                list.push({
+                    wallet: item.ownerWallet,
+                    count: item.count
+                })
+            })
+            for (let i = 0; i < list.length; i++) {
+                for (let j = i + 1; j < list.length; j++) {
+                    if (list[i].count < list[j].count) {
+                        let tmp;
+                        tmp = list[i];
+                        list[i] = list[j];
+                        list[j] = tmp;
+                    }
+                }
+            }
+        }
+        dispatch({
+            type: "rerollMember",
+            payload: list
+        })
+
+    }
+
     useEffect(() => {
         (async () => {
             if (anchorWallet) {
-                showLoading(true);
-                let solBalance = await getSolBalance();
-                let wobBalance = await getTokenBalance(WOBTOKEN);
-                dispatch({
-                    type: "solBalance",
-                    payload: solBalance
-                })
-                dispatch({
-                    type: "tokenBalance",
-                    payload: wobBalance
-                })
-                await getNftList();
-                await getStakedNftList();
-                await getUserProfile();
-                showLoading(false);
+                // showLoading(true);
+                // let solBalance = await getSolBalance();
+                // let wobBalance = await getTokenBalance(WOBTOKEN);
+                // dispatch({
+                //     type: "solBalance",
+                //     payload: solBalance
+                // })
+                // dispatch({
+                //     type: "tokenBalance",
+                //     payload: wobBalance
+                // })
+                // await getNftList();
+                // await getStakedNftList();
+                // await getUserProfile();
+                // await getRerollData();
+                // showLoading(false);
             }
         })()
     }, [wallet, anchorWallet])

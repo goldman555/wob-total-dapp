@@ -384,13 +384,13 @@
 
 .music {
 
-    .panel {
-        width: 80%;
+    // .panel {
+    //     width: 80%;
 
-        @media (max-width: 600px) {
-            width: 96%;
-        }
-    }
+    //     @media (max-width: 600px) {
+    //         width: 96%;
+    //     }
+    // }
 
     .title {
         max-width: 450px;
@@ -490,7 +490,70 @@
         display: flex;
         flex-direction: column;
         row-gap: 20px;
+        padding: 3vw;
+        margin-top: 20px;
+
+        div {
+            font-size: 20px;
+        }
+
+        span {
+            font-size: 12px;
+            line-height: 20px;
+        }
+    }
+
+}
+
+.faq {
+
+    .section {
+        display: flex;
+        flex-direction: column;
+        row-gap: 10px;
+        width: 70%;
+
+        .first {
+            border-bottom: 1px solid grey;
+        }
+
+        span {
+            font-size: 14px;
+            line-height: 22px;
+            padding-top: 5px;
+            padding-bottom: 5px;
+        }
+
+        @media (max-width: 960px) {
+            width: 95%;
+        }
 
     }
 
+    .section.last {
+        border-bottom: 1px solid grey;
+    }
+
+
+}
+
+.card {
+    margin: 30px 10px;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    row-gap: 20px;
+    border-radius: 30px;
+    border: 2px solid white;
+    width: 200px;
+
+    span {
+        text-align: center;
+    }
+
+    .card-content {
+        flex: 1;
+        text-align: center;
+    }
 }

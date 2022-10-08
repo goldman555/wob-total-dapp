@@ -26,7 +26,8 @@ export default function Header(props: any) {
 
     return (
         <div className="header-wrap">
-            <div className="header">
+            <div className="header container">
+                {/* <div className="container"> */}
                 <div className="row cg-1">
                     <img src={Assets.logo_white} className="head-logo"></img>
                     <span className="title">{title}</span>
@@ -66,15 +67,9 @@ export default function Header(props: any) {
                     </Menu>
 
                 </div>
+                {/* </div> */}
             </div>
-            {/* <div className="menu-reverse">
-                <div className="col rg-1 f-center">
-                    <span onClick={() => { navigation('/') }}>Home</span>
-                    <span onClick={() => { navigation('/stake') }}>Stake</span>
-                    <span onClick={() => { navigation('/reroll') }}>ReRoll</span>
-                    <span onClick={() => { navigation('/transformer') }}>Transformer</span>
-                </div>
-            </div> */}
         </div>
+
     );
 }

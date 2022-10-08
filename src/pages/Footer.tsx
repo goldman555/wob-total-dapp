@@ -5,7 +5,7 @@ import '../scss/Footer.scss';
 export default function Footer() {
     return (
         <div className="footer">
-            <div className='col j-start rg-2'>
+            <div className='col f-center rg-2'>
                 <img src={Asset.logo_white}></img>
                 <div className='row cg-1 f-16'>
                     <span>Copyright</span>

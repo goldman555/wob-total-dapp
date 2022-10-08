@@ -26,5 +26,11 @@ export interface StateInfo {
     burnList: any[],
     stakeList: NFTInfo[],
     userData: UserInfo,
+    rerollMember: any[]
+}
+
+export interface RerollInfo {
+    wallet: String,
+    count: Number
 }
 
