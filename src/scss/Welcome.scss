@@ -1,4 +1,13 @@
 .welcome {
+
+    @media (max-width: 767px) {
+        text-align: center;
+    }
+
+    .img {
+        width: 80%;
+    }
+
     .section {
         display: flex;
         flex-direction: column;
@@ -8,8 +17,11 @@
         row-gap: 20px;
         background-color: #0e0e0e;
         border-radius: 7px;
-        margin-top: 50px;
         border: 0px solid white;
+
+        @media (max-width: 767px) {
+            font-size: 15px;
+        }
     }
 
     .section1 {
@@ -20,6 +32,10 @@
         line-height: 32px;
         row-gap: 20px;
         margin-top: 20px;
+
+        @media (max-width: 767px) {
+            font-size: 15px;
+        }
     }
 
     .group {
@@ -67,8 +83,11 @@
         font-size: 16px;
         border: 0px solid white;
         height: 60px;
-        width: 220px;
         color: white;
+
+        @media (max-width: 767px) {
+            font-size: 13px;
+        }
 
         img {
             width: 30px;
@@ -165,6 +184,78 @@
             img {
                 width: 30px;
             }
+        }
+    }
+}
+
+.roadroadmap {
+    display: flex;
+    width: 100%;
+    align-items: center;
+    padding-bottom: 100px;
+
+    @media (max-width: 1024px) {
+        flex-direction: column;
+    }
+
+    >div {
+        position: relative;
+        flex: 1;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        @media (max-width: 1024px) {
+            margin-bottom: 80px;
+        }
+
+        img {
+            width: 60px;
+            border-radius: 50%;
+        }
+
+        div {
+            position: absolute;
+            top: 120%;
+            font-size: 12px;
+            text-align: center;
+            line-height: 1.25;
+        }
+    }
+
+    >span {
+        position: relative;
+        display: inline-block;
+        width: 50px;
+        padding-top: 2px;
+        background: #FFFFFF;
+        border-radius: 50px;
+
+        @media (max-width: 1024px) {
+            transform: rotate(90deg);
+            margin-bottom: 40px;
+        }
+
+        &:after,
+        &:before {
+            position: absolute;
+            top: 50%;
+            right: 0;
+            width: 25%;
+            height: 100%;
+            background: #FFFFFF;
+            border-radius: 50px;
+            content: "";
+        }
+
+        &:after {
+            transform: translate(0, calc(-50%)) rotate(45deg);
+            margin-top: -10%;
+        }
+
+        &:before {
+            transform: translate(0, calc(-50%)) rotate(-45deg);
+            margin-top: 10%;
         }
     }
 }

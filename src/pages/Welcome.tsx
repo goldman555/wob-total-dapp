@@ -10,6 +10,37 @@ import '../scss/Main.scss';
 import '../scss/Welcome.scss';
 import Footer from "./Footer";
 
+const roadmapMockup = [
+    {
+        img: Asset.logo1,
+        text: "ACQUIRE MEGAWOB"
+    },
+    {
+        img: Asset.logo1,
+        text: "STAKE YOUR WOB"
+    },
+    {
+        img: Asset.logo1,
+        text: "EARN $WOB"
+    },
+    {
+        img: Asset.logo1,
+        text: "SPEND IN WOBMART"
+    },
+    {
+        img: Asset.logo1,
+        text: "TAKE WOBBLEDRUG"
+    },
+    {
+        img: Asset.logo1,
+        text: "TRANSFORM"
+    },
+    {
+        img: Asset.logo1,
+        text: "RE-ROLL / BACK TO MEGAWOB"
+    }
+] as { img: any, text: string }[]
+
 export default function Welcome() {
 
     const wallet = useWallet();
@@ -48,13 +79,13 @@ export default function Welcome() {
             <div className={"main"}>
                 <div className="container">
                     <div className="col f-center">
-                        <img src={Asset.face_logo}></img>
+                        <img className="img" src={Asset.face_logo}></img>
                         <span className="f-32 mb-5">THE FIRST TOKENIZED MUSICIAN IN HISTORY</span>
-                        <img src={Asset.logo1} className="mt-9"></img>
-                        <div className="row cg-2 mt-5">
-                            <span className="line"></span>
-                            <span className="f-32">PREFACE</span>
-                            <span className="line"></span>
+                        <img src={Asset.logo1} className="logo1"></img>
+                        <div className="section-title">
+                            <span ></span>
+                            <h3 className="f-32">PREFACE</h3>
+                            <span ></span>
                         </div>
                         <div className="section">
                             <span>An alien, a dj, an out of this world electronic music producer, Wobblebug is so much more than an NFT project...</span>
@@ -73,11 +104,11 @@ export default function Welcome() {
                             </div>
                         </div>
 
-                        <img src={Asset.logo1} className="mt-9"></img>
-                        <div className="row cg-2 mt-5">
-                            <span className="line"></span>
-                            <span className="f-32">THE NFTS</span>
-                            <span className="line"></span>
+                        <img src={Asset.logo1} className="logo1"></img>
+                        <div className="section-title">
+                            <span ></span>
+                            <h3 className="f-32">THE NFTS</h3>
+                            <span ></span>
                         </div>
                         <span className="f-14 mt-3">EACH WOBBLEBUG COLLECTION PROVIDES A DIFFERENT SET OF UTILITIES IN THE WOBVERSE</span>
 
@@ -133,19 +164,33 @@ export default function Welcome() {
                             </div>
                         </div>
 
-                        <img src={Asset.logo1} className="mt-9"></img>
-                        <div className="row cg-2 mt-5">
-                            <span className="line"></span>
-                            <span className="f-32">YOUR JOURNEY</span>
-                            <span className="line"></span>
+                        <img src={Asset.logo1} className="logo1"></img>
+                        <div className="section-title">
+                            <span ></span>
+                            <h3 className="f-32">YOUR JOURNEY</h3>
+                            <span ></span>
                         </div>
 
                         <div className="section f-center">
                             <span className="f-24">READY TO START?</span>
                             <span>Follow the steps below and join the invasion!</span>
                             <span className="f-14">If you are ready to go on the adventure of a lifetime and join the invasion, acquire your Megawob or Degen on Magic Eden or OpenSea and LET THE BASS begin...</span>
-                            <div className="row"></div>
-                            <div className="row cg-6 w50 between">
+                            <div className="roadroadmap">
+                                {roadmapMockup.map((i: any, k: number) => (
+                                    <>
+                                        <div>
+                                            <img src={i.img} alt="" />
+                                            <div>
+                                                <span>{i.text}</span>
+                                            </div>
+                                        </div>
+                                        {k !== roadmapMockup.length - 1 && (
+                                            <span></span>
+                                        )}
+                                    </>
+                                ))}
+                            </div>
+                            <div className="btn-group">
                                 <button className="market-button">
                                     <img src={Asset.magiceden1}></img>
                                     <span>MAGIC EDEN</span>
@@ -157,14 +202,14 @@ export default function Welcome() {
                             </div>
                         </div>
 
-                        <img src={Asset.logo1} className="mt-9"></img>
-                        <div className="row cg-2 mt-5">
-                            <span className="line"></span>
-                            <span className="f-32">ROADMAP</span>
-                            <span className="line"></span>
+                        <img src={Asset.logo1} className="logo1"></img>
+                        <div className="section-title">
+                            <span ></span>
+                            <h3 className="f-32">ROADMAP</h3>
+                            <span ></span>
                         </div>
 
-                        <div className="section roadmap f-center mt-5">
+                        <div className="section roadmap f-center">
                             <span>WHERE WERE GOING</span>
                             <img src={Asset.already} alt="" />
                             <span>WHERE WEVE BEEN</span>
@@ -173,11 +218,11 @@ export default function Welcome() {
                             <span className="f-14">Each WOB you own brings you closer to the forefront of music tech innovation.</span>
                         </div>
 
-                        <img src={Asset.logo1} className="mt-9"></img>
-                        <div className="row cg-2 mt-5">
-                            <span className="line"></span>
-                            <span className="f-32">UTILITIES</span>
-                            <span className="line"></span>
+                        <img src={Asset.logo1} className="logo1"></img>
+                        <div className="section-title">
+                            <span ></span>
+                            <h3 className="f-32">UTILITIES</h3>
+                            <span ></span>
                         </div>
 
                         <div className="section utilities f-center">
@@ -197,9 +242,9 @@ export default function Welcome() {
                                     <img src={Asset.logo_white} className="logo"></img>
                                 </div>
                                 <span className="f-16">Once you have earned enough $WOB, head over to the $WobMart for a one of a kind web3 shopping experience stacked with legit physical and digital items.</span>
-                                <div className="row cg-2">
-                                    <button>ENTER WOBMART</button>
-                                    <button>$WOB INFO</button>
+                                <div className="btn-group">
+                                    <button className="market-button">ENTER WOBMART</button>
+                                    <button className="market-button">$WOB INFO</button>
                                 </div>
                             </div>
 
@@ -240,12 +285,11 @@ export default function Welcome() {
                         </div>
 
 
-                        <img src={Asset.logo1} className="mt-9"></img>
-                        <div className="row cg-2 mt-5">
-                            <span className="line"></span>
-                            <span className="f-32 t-center">WOBBLEBUG THE DJ
-                                & MUSIC PRODUCER</span>
-                            <span className="line"></span>
+                        <img src={Asset.logo1} className="logo1"></img>
+                        <div className="section-title">
+                            <span ></span>
+                            <h3 className="f-32 t-center">WOBBLEBUG THE DJ & MUSIC PRODUCER</h3>
+                            <span ></span>
                         </div>
 
                         <div className="col rg-3 t-center producer">
@@ -269,14 +313,14 @@ export default function Welcome() {
                             </div>
                         </div>
 
-                        <img src={Asset.logo1} className="mt-9"></img>
-                        <div className="row cg-2 mt-5">
-                            <span className="line"></span>
-                            <span className="f-32 t-center">WOB MUSIC GROUP</span>
-                            <span className="line"></span>
+                        <img src={Asset.logo1} className="logo1"></img>
+                        <div className="section-title">
+                            <span ></span>
+                            <h3 className="f-32 t-center">WOB MUSIC GROUP</h3>
+                            <span ></span>
                         </div>
 
-                        <div className="f-center col rg-4 mt-5 musicgroup">
+                        <div className="f-center col rg-4 musicgroup">
                             <span className="f-24">AN INNOVATIVE RECORD LABEL BY WOBBLEBUG</span>
                             <span>WOBBLE LABS WILL BE THE CENTRAL HOME THAT WILL RELEASE THE MUSIC CREATED BY WOBBLEBUG AND IT'S COMMUNITY MEMBERS. WE PLAN TO ROLLOUT SINGLES, EP'S AND ALBUMS JUST LIKE ANY OTHER ARTIST WOULD. THE MUSIC WILL BE AVAILABLE ON THE TRADITIONAL PLATFORMS INCLUDING SPOTIFY, APPLE, AMAZON, YOUTUBE, AUDIUS AND MORE.</span>
                             <button>

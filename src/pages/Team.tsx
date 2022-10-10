@@ -10,12 +10,12 @@ export default function Team() {
         <div className="team">
             <Header title={'WOBBLEBUG'} />
             <div className="container">
-                <div className="col f-center mt-9 rg-6">
-                    <img className="mylogo" src={Asset.logo1}></img>
-                    <div className="row f-center cg-3 mt-4">
-                        <span className="line"></span>
-                        <span className="f-32">TEAM</span>
-                        <span className="line"></span>
+                <div className="col f-center mt-9">
+                    <img className="logo1" src={Asset.logo1}></img>
+                    <div className="section-title">
+                        <span ></span>
+                        <h3 className="f-32">TEAM</h3>
+                        <span ></span>
                     </div>
                     <div className="flex-row j-center">
                         <div className="card">

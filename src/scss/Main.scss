@@ -3,7 +3,7 @@
     padding-top: calc(1.5vw + 90px);
 
     .main-part {
-        // margin-top: 50px;
+        margin-top: 30px;
         display: flex;
         flex-direction: row;
         column-gap: 10px;
@@ -16,6 +16,7 @@
 
     .left {
         width: 65%;
+        padding: 2vw;
         display: flex;
         flex-direction: column;
         row-gap: 20px;
@@ -297,9 +298,9 @@
 }
 
 .btn {
-    height: 90px;
-    width: 250px;
-    font-size: 25px;
+    height: 55px;
+    width: 180px;
+    font-size: 16px;
     background-color: red;
     border: 0px solid red;
     border-radius: 10px;
@@ -351,15 +352,6 @@
     left: 0;
 }
 
-.line {
-    border: 1px solid white;
-    width: 300px;
-
-    @media (max-width: 600px) {
-        width: 80px;
-    }
-}
-
 .lore-btn {
     background-color: #242424;
     border: 0px solid white;
@@ -383,14 +375,6 @@
 }
 
 .music {
-
-    // .panel {
-    //     width: 80%;
-
-    //     @media (max-width: 600px) {
-    //         width: 96%;
-    //     }
-    // }
 
     .title {
         max-width: 450px;
@@ -555,5 +539,45 @@
     .card-content {
         flex: 1;
         text-align: center;
+    }
+}
+
+.logo1 {
+    margin-top: 90px;
+    width: 100px !important;
+    margin-bottom: 30px;
+}
+
+.speaker-img {
+    width: 35px;
+}
+
+.btn-group {
+    display: flex;
+    flex-wrap: wrap;
+    width: 100%;
+    gap: 10px;
+
+    >button {
+        flex: 1;
+    }
+}
+
+.section-title {
+    display: flex;
+    align-items: center;
+    gap: 50px;
+    width: 70%;
+
+    @media (max-width: 767px) {
+        gap: 20px;
+        width: 100%;
+    }
+
+    span {
+        display: inline-block;
+        flex: 1;
+        height: 2px;
+        background: #FFFFFF;
     }
 }

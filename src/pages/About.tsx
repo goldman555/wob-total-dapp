@@ -8,11 +8,11 @@ export default function About() {
             <Header title={'WOBBLEBUG'} />
             <div className="container">
                 <div className="col f-center mt-9 cg-6">
-                    <img className="mylogo" src={Asset.logo1}></img>
-                    <div className="row f-center cg-3 mt-4">
-                        <span className="line"></span>
-                        <span className="f-32">ABOUT</span>
-                        <span className="line"></span>
+                    <img className="logo1" src={Asset.logo1}></img>
+                    <div className="section-title">
+                        <span ></span>
+                        <h3 className="f-32">ABOUT</h3>
+                        <span ></span>
                     </div>
                     <div className="col f-center w80 mt-5 rg-4 f-18 l-24">
                         <span>What started as a small collection on ETH, Wobblebug has developed into an innovative cross chain collection that has moved to SOL... now geared on innovating tech and music.</span>

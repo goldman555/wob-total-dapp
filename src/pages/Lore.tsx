@@ -8,13 +8,13 @@ export default function Lore() {
             <Header title={'WOBBLEBUG'} />
             <div className="container">
                 <div className="col f-center mt-9 cg-6">
-                    <img className="mylogo" src={Asset.logo1}></img>
-                    <div className="row f-center cg-3 mt-4">
-                        <span className="line"></span>
-                        <span className="f-32">LORE</span>
-                        <span className="line"></span>
+                    <img className="logo1" src={Asset.logo1}></img>
+                    <div className="section-title">
+                        <span ></span>
+                        <h3 className="f-32">LORE</h3>
+                        <span ></span>
                     </div>
-                    <div className="col j-start w80 mt-5 rg-2 f-12 l-20">
+                    <div className="col j-start w80 rg-2 f-12 l-20">
                         <span>Eons ago in a galaxy across the stars Wobbles survived and thrived on their home planet of MetaBass which lay on the outskirts of the universe.</span>
                         <span>They were a wild and bloodthirsty species, known for their uncontrollable hunger (Wobbles are known to have an appetite that is 100x as strong as the average human) and lavish parties among the aliens of nearby planets.</span>
                         <span>Their primary source of food was alien flesh, and even though they ate their way through hundreds of pounds of flesh every day, MetaBass prime was an old planet, with a thriving ecosystem stocked full of a variety of alien animals and other species to feed their insatiable appetites.</span>

@@ -210,7 +210,7 @@ export default function Store() {
                         <div className="left">
                             <div className="panel transform">
                                 <span>Gold Tier</span>
-                                <div className="row wrap cg-2 rg-2 w100">
+                                <div className="row wrap cg-2 rg-2 w100 f-center">
                                     {
                                         goldList.map((item: any, idx: any) => (
                                             <StakeNFT imgSrc={item.imageUrl} id={idx} nft={item} onClicks={[async () => { }]} key={idx}></StakeNFT>
@@ -226,7 +226,7 @@ export default function Store() {
                             </div>
                             <div className="panel transform">
                                 <span>Silver Tier</span>
-                                <div className="row wrap cg-2 rg-2 w100">
+                                <div className="row wrap cg-2 rg-2 w100 f-center">
                                     {
                                         silverList.map((item: any, idx: any) => (
                                             <StakeNFT imgSrc={item.imageUrl} id={idx} nft={item} onClicks={[async () => { }]} key={idx}></StakeNFT>
@@ -242,7 +242,7 @@ export default function Store() {
                             </div>
                             <div className="panel transform">
                                 <span>Bronze Tier</span>
-                                <div className="row wrap cg-2 rg-2 w100">
+                                <div className="row wrap cg-2 rg-2 w100 f-center">
                                     {
                                         bronzeList.map((item: any, idx: any) => (
                                             <StakeNFT imgSrc={item.imageUrl} id={idx} nft={item} onClicks={[async () => { }]} key={idx}></StakeNFT>
@@ -258,7 +258,7 @@ export default function Store() {
                             </div>
                             <div className="panel transform">
                                 <div>UnStaked NFTs</div>
-                                <div className='row wrap cg-2 rg-2 w100' style={{ justifyContent: 'center' }}>
+                                <div className='row wrap cg-2 rg-2 w100 f-center'>
                                     {
                                         state.nftList.map((item: any, idx: any) => (
                                             <UnStakeNFT imgSrc={item.imageUrl} id={idx} nft={item} onClicks={[async () => { }]} key={idx}></UnStakeNFT>

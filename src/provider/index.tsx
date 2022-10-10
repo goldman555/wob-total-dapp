@@ -69,6 +69,8 @@ export default function Provider({ children }: any) {
         process.env.REACT_APP_CLUSTER_RPC!
     );
 
+    console.log(`connection:::`, connection);
+
     const anchorWallet = useMemo(() => {
         if (
             !wallet ||
@@ -1074,22 +1076,22 @@ export default function Provider({ children }: any) {
     useEffect(() => {
         (async () => {
             if (anchorWallet) {
-                // showLoading(true);
-                // let solBalance = await getSolBalance();
-                // let wobBalance = await getTokenBalance(WOBTOKEN);
-                // dispatch({
-                //     type: "solBalance",
-                //     payload: solBalance
-                // })
-                // dispatch({
-                //     type: "tokenBalance",
-                //     payload: wobBalance
-                // })
-                // await getNftList();
-                // await getStakedNftList();
-                // await getUserProfile();
-                // await getRerollData();
-                // showLoading(false);
+                showLoading(true);
+                let solBalance = await getSolBalance();
+                let wobBalance = await getTokenBalance(WOBTOKEN);
+                dispatch({
+                    type: "solBalance",
+                    payload: solBalance
+                })
+                dispatch({
+                    type: "tokenBalance",
+                    payload: wobBalance
+                })
+                await getNftList();
+                await getStakedNftList();
+                await getUserProfile();
+                await getRerollData();
+                showLoading(false);
             }
         })()
     }, [wallet, anchorWallet])

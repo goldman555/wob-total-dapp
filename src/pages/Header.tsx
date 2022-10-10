@@ -31,10 +31,12 @@ export default function Header(props: any) {
                 <div className="row cg-1">
                     <img src={Assets.logo_white} className="head-logo"></img>
                     <span className="title">{title}</span>
-                    <WalletMultiButton />
                 </div>
-                <div className="row mr-9">
-
+                <div className="row mr-9 cg-1">
+                    <WalletMultiButton />
+                    <img src={Assets.twitter}></img>
+                    <img src={Assets.instagram}></img>
+                    <img src={Assets.discord}></img>
                     <Button
                         id="basic-button"
                         aria-controls={open ? 'basic-menu' : undefined}

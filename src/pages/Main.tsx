@@ -327,7 +327,7 @@ export default function Main() {
             <div className={loading ? "main mobile_disable" : "main"}>
                 <div className="container">
                     <div className="row between">
-                        <img src={Asset.speaker}></img>
+                        <img className="speaker-img" src={Asset.speaker}></img>
                         <div className="row cg-1">
                             <img src={Asset.token} style={{ width: '40px' }}></img>
                             <div className="col rg-1">

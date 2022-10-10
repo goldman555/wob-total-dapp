@@ -371,9 +371,9 @@ export default function Stake() {
                                 </Modal>
                                 <div className='row f-center' style={{ marginTop: '20px' }}>
                                     <img src={Asset.token} style={{ width: '50px', borderRadius: '50px', marginRight: '10px' }}></img>
-                                    <div className='t14'>My Rewards</div>
+                                    <div className='f-16'>My Rewards</div>
                                 </div>
-                                <div className='t14' style={{ marginTop: '15px' }}>Balance - {wobBalance} $WOB</div>
+                                <div className='f-16' style={{ marginTop: '15px' }}>Balance - {wobBalance} $WOB</div>
 
                                 {
                                     curNft ?

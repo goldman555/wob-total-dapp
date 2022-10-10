@@ -15,6 +15,7 @@
         font-family: monument;
         font-size: 13px;
         column-gap: 10px;
+        min-width: fit-content;
     }
 
     .menu-item {
@@ -30,6 +31,8 @@
 
     .title {
         display: block;
+
+        min-width: fit-content;
 
         @media (max-width: 800px) {
             display: none;
@@ -53,6 +56,7 @@
     top: 0;
     height: 70px;
     width: 100%;
+    z-index: 9999;
     background-color: #222222;
 }
 

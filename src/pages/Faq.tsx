@@ -17,14 +17,14 @@ export default function Faq() {
         <div className="faq">
             <Header title={'WOBBLEBUG'} />
             <div className="container">
-                <div className="col f-center mt-9 rg-6">
-                    <img className="mylogo" src={Asset.logo1}></img>
-                    <div className="row f-center cg-3 mt-4">
-                        <span className="line"></span>
-                        <span className="f-32">FAQ</span>
-                        <span className="line"></span>
+                <div className="col f-center mt-9">
+                    <img className="logo1" src={Asset.logo1}></img>
+                    <div className="section-title">
+                        <span ></span>
+                        <h3 className="f-32">FAQ</h3>
+                        <span ></span>
                     </div>
-                    <div className="col f-center rg-2 w100">
+                    <div className="col f-center w100">
                         <div className="section last">
                             <div className="first row between">
                                 <span>What is Wobblebug?</span>

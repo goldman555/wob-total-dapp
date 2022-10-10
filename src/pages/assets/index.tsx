@@ -18,6 +18,7 @@ import logo1 from '../../img/logo1.svg';
 import twitter from '../../img/twitter.svg';
 import instagram from '../../img/instagram.svg';
 import tictok from '../../img/tictok.svg';
+import discord from '../../img/discord.svg';
 
 import wob from '../../img/wob.png';
 import degen from '../../img/degen.png';
@@ -36,6 +37,7 @@ import already from '../../img/already.jpg';
 import img1 from '../../img/img1.png';
 import img2 from '../../img/img2.png';
 import img3 from '../../img/img3.png';
+
 
 import loading_video from '../../img/loading.mp4';
 
@@ -71,5 +73,6 @@ export default {
     already,
     img1,
     img2,
-    img3
+    img3,
+    discord
 }

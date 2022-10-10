@@ -1,4 +1,5 @@
 import React, { useEffect, useMemo, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import Header from "./Header";
 import NFT from "./components/NFT";
 import { useAnchorWallet, useConnection, useWallet } from "@solana/wallet-adapter-react";
@@ -16,6 +17,8 @@ import { AlertState } from "../utils";
 import { useBlockchainContext } from "../provider";
 import { useToasts } from 'react-toast-notifications';
 import { RerollInfo } from "../../global";
+import { Modal } from '@material-ui/core';
+
 
 /**
  *  CONSTANTS...
@@ -34,7 +37,9 @@ export default function ReRoll() {
 
     const [state, { transferToken, transferSol }]: any = useBlockchainContext();
     const { addToast } = useToasts();
+    const navigation = useNavigate();
     const wallet = useWallet();
+    const wallet1 = useAnchorWallet();
     const connection = new anchor.web3.Connection(
         CLUSTER_RPC!
     )
@@ -53,6 +58,7 @@ export default function ReRoll() {
             signTransaction: wallet.signTransaction,
         } as anchor.Wallet;
     }, [wallet])
+    const [open, setOpen] = useState(false);
     const [wobBalance, setWobBalance] = useState<any>(0);
     const [solBalance, setSolBalance] = useState<any>(0);
     const [addrList, setAddrList] = useState<any[]>([]);
@@ -156,12 +162,96 @@ export default function ReRoll() {
         setCurNft(item);
     }
 
-    useEffect(() => {
+    const [selectImg, setSelectImg] = useState(null);
+    const [image, _setImage] = useState(null);
+    const [showImage, setShowImage] = useState(null);
 
-        // setAddrList(state.rerollMember);
+    const [userEmail, setUserEmail] = useState<any>('');
+
+    const handleChange = (event: any) => {
+        if (image) {
+            setImage(null);
+            setSelectImg(null);
+        }
+        const newImage = event.target?.files?.[0];
+        if (newImage) {
+            setImage(URL.createObjectURL(newImage));
+            setSelectImg(newImage);
+        }
+    }
+
+    const setImage = (newImage: any) => {
+        if (image)
+            URL.revokeObjectURL(image);
+        _setImage(newImage);
+    }
+
+    const handleClick = () => {
+        const inputBtn = document.getElementById("avatar");
+        inputBtn?.click();
+    }
+
+    const updateUserInfo = () => {
+        if (!wallet?.publicKey) return;
+        if (!(image && userEmail && userEmail != '')) {
+            return;
+            setOpen(false);
+        }
+
+        var formData = new FormData();
+        formData.append('email', userEmail);
+        formData.append('address', wallet?.publicKey.toString());
+        formData.append('file', selectImg!);
+        axios.post(
+            `${BASEURL}/updateProfile`,
+            formData,
+            {
+                headers: {
+                    'Content-Type': 'multipart/form-data'
+                }
+            }
+        ).then(function (res) {
+            console.log(`result::`, res);
+            setOpen(false);
+        }).catch(function (err) {
+            console.log(`error:::`, err);
+            setOpen(false);
+        })
+    }
+
+    const deleteUserInfo = async () => {
+        let result = await axios.post(
+            `${BASEURL}/deleteProfile`,
+            { address: wallet1?.publicKey.toString() },
+        )
+        setOpen(false);
+        console.log(`result::`, result);
+    }
+
+    const handleChangeEmail = (event: any) => {
+        setUserEmail(event.target.value);
+    }
+
+    const getUserProfile = async () => {
+
+        let result = await axios.post(
+            `${BASEURL}/getProfile`,
+            {
+                address: wallet1?.publicKey.toString()
+            }
+        )
+        console.log(`getprofile::`, result);
+        if (result.data.result) {
+            setShowImage(result.data.result.image_url);
+            setUserEmail(result.data.result.email)
+        }
+    }
+
+    useEffect(() => {
 
         (async () => {
             if (anchorWallet) {
+                await getUserProfile();
                 setSolBalance(state.solBalance);
                 setWobBalance(state.tokenBalance);
                 setNftList(state.degenList);
@@ -193,7 +283,7 @@ export default function ReRoll() {
             <div className={loading ? "main mobile_disable" : "main"}>
                 <div className="container">
                     <div className="row between">
-                        <img src={Asset.speaker}></img>
+                        <img className="speaker-img" src={Asset.speaker}></img>
                         <div className="row cg-1">
                             <img src={Asset.token} style={{ width: '40px' }}></img>
                             <div className="col rg-1">
@@ -204,11 +294,11 @@ export default function ReRoll() {
                     </div>
                     <div className="main-part">
                         <div className="left">
-                            <span className="f-28">Roll the Wobblebot to unlock a new degen</span>
+                            <span className="f-20">Roll the Wobblebot to unlock a new degen</span>
                             <div className="panel reroll">
                                 <img src={Asset.logo_white}></img>
                                 <div className="col f-center rg-3">
-                                    <span className="f-24">FIND THE PERFECT DEGEN WOB PFP</span>
+                                    <span className="f-18">FIND THE PERFECT DEGEN WOB PFP</span>
                                     <span className="f-14">our highest rollers are on the leaderboard.. how degen are you?</span>
                                     {
                                         nftList.length == 0 ?
@@ -229,14 +319,14 @@ export default function ReRoll() {
                                 {
                                     nftList.length == 0 ?
                                         <div className="col rg-2 f-center">
-                                            <span className="f-24">You need a degen wob to roll the wobblebot</span>
+                                            <span className="f-18">You need a degen wob to roll the wobblebot</span>
                                             <span className="row wrap cg-5 rg-2 f-center">
                                                 <button className="btn" onClick={buyOnME}>Buy on M.E</button>
                                                 <button className="btn">Transformer</button>
                                             </span>
                                         </div> :
                                         <div className="col rg-2 f-center">
-                                            <span className="f-24">ROLL THE WOBBLEBOT</span>
+                                            <span className="f-18">ROLL THE WOBBLEBOT</span>
                                             <span className="row wrap cg-5 rg-2 f-center">
                                                 <button className="btn" onClick={handleClickWob}>1000 $WOB</button>
                                                 <button className="btn" onClick={handleClickSol}>0.2 SOL</button>
@@ -247,15 +337,68 @@ export default function ReRoll() {
                             </div>
                         </div>
                         <div className="right">
-                            <span style={{ fontSize: '16px' }}>Top degen Leaderboards</span>
-                            {addrList.map((item, key) => (
-                                <div className="row cg-1" key={key}>
-                                    <img src={Asset.logo_red}></img>
-                                    <div className="row wrap">
-                                        <span>{item}</span>
-                                    </div>
+                            <div className="panel-right">
+                                <div className='row f-center'>
+                                    <img src={Asset.logo_white} style={{ width: '50px', borderRadius: '50px', marginRight: '10px' }}></img>
+                                    <div className='f-16'>Collector Dashboard</div>
                                 </div>
-                            ))}
+                                <button className='profile-button' onClick={() => { navigation('/stake/store') }}>View My Portfolio</button>
+                                <button className='profile-button' onClick={() => { setOpen(true) }}>Edit Profile</button>
+                                <Modal
+                                    open={open}
+                                    onClose={() => setOpen(false)}
+                                >
+                                    <div className='edit-modal-container'>
+                                        <h1 style={{ color: 'white' }}>
+                                            Edit profile
+                                        </h1>
+                                        <div className='edit-modal-bg'>
+                                            <div className='row cg-3' style={{ justifyContent: 'flex-start !important' }}>
+
+                                                {showImage != null && image == null && <img className='user-avatar' src={showImage}></img>}
+
+                                                {/* {(image == null) ? <div className='user-avatar'></div> : <img className='user-avatar' src={image}></img>} */}
+                                                {(image == null && showImage == null) && <div className='user-avatar'></div>}
+                                                {(image != null) && <img className='user-avatar' src={image}></img>}
+
+                                                <input id="avatar" type="file" style={{ display: 'none' }} accept="image/jpeg, image/png, image/jpg" onChange={handleChange}></input>
+                                                <div className='justify-s fd-c ts gap10'>
+                                                    <div className='w100'>
+                                                        <button className='address-btn' onClick={handleClick}>
+                                                            <div>Change profile picture</div>
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div className='mt-3'>
+                                                Email address
+                                                <div className='mt-1'>
+                                                    <input type="input" className='input' onChange={handleChangeEmail} value={userEmail} />
+                                                </div>
+                                            </div>
+                                            <div className='mt-3 row cg-2'>
+                                                <button className='update' onClick={updateUserInfo}>update</button>
+                                                <button className='delete' onClick={deleteUserInfo}>delete</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </Modal>
+                                <div className='row f-center' style={{ marginTop: '20px' }}>
+                                    <img src={Asset.token} style={{ width: '50px', borderRadius: '50px', marginRight: '10px' }}></img>
+                                    <div className='f-16'>WOB TOKEN</div>
+                                </div>
+                                <div className='f-16' style={{ marginTop: '15px' }}>Balance - {wobBalance} $WOB</div>
+
+                                <span className="f-16 mt-3">Top degen Leaderboards</span>
+                                {addrList.map((item, key) => (
+                                    <div className="row cg-1" key={key}>
+                                        <img src={Asset.logo_red}></img>
+                                        <div className="row wrap">
+                                            <span>{item}</span>
+                                        </div>
+                                    </div>
+                                ))}
+                            </div>
                         </div>
                     </div>
                 </div>
