@@ -199,9 +199,9 @@ export default function Transformer() {
             <Header title={'WOBBLEBUG UPGRADE'} />
             <div className={"main"}>
                 <div className="container">
+                    <span className="f-20 ml-5">CONVERT YOUR WOBBLEBUG NFTS</span>
                     <div className="main-part">
                         <div className="left">
-                            <span className="f-20">CONVERT YOUR WOBBLEBUG NFTS</span>
                             <div className="panel transform">
                                 <span>MEGAWOBS</span>
                                 {

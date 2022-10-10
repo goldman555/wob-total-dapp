@@ -56,6 +56,7 @@ export default function Header(props: any) {
                         MenuListProps={{
                             'aria-labelledby': 'basic-button',
                         }}
+                        style={{ marginTop: '20px' }}
                     >
                         <MenuItem onClick={() => { navigation('/') }}>HOME</MenuItem>
                         <MenuItem onClick={() => { navigation('/lore') }}>LORE</MenuItem>

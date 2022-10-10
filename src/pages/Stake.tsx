@@ -378,9 +378,8 @@ export default function Stake() {
                                 {
                                     curNft ?
                                         <>
-                                            <div className='t14' style={{ marginTop: '30px' }}>You have Selected {'1'}</div>
+                                            <div className='t14' style={{ marginTop: '30px' }}>You have Selected {curNft.name}</div>
                                             <img src={curNft.imageUrl} style={{ width: '120px', borderRadius: '10px', marginTop: '20px' }}></img>
-                                            <div className='t10' style={{ marginTop: '5px' }}>#2341</div>
 
                                             <div style={{ display: 'flex', flexWrap: 'wrap', columnGap: '10px' }}>
                                                 {!curType && <button className='profile-button' style={{ width: '100px' }} onClick={() => { onStake(curNft) }}>Stake</button>}

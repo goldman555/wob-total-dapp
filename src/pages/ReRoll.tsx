@@ -284,17 +284,10 @@ export default function ReRoll() {
                 <div className="container">
                     <div className="row between">
                         <img className="speaker-img" src={Asset.speaker}></img>
-                        <div className="row cg-1">
-                            <img src={Asset.token} style={{ width: '40px' }}></img>
-                            <div className="col rg-1">
-                                <span>{wobBalance} $WOB</span>
-                                <span>{solBalance} SOL</span>
-                            </div>
-                        </div>
                     </div>
+                    <span className="f-20 ml-5">Roll the Wobblebot to unlock a new degen</span>
                     <div className="main-part">
                         <div className="left">
-                            <span className="f-20">Roll the Wobblebot to unlock a new degen</span>
                             <div className="panel reroll">
                                 <img src={Asset.logo_white}></img>
                                 <div className="col f-center rg-3">
@@ -312,7 +305,10 @@ export default function ReRoll() {
                                                     }
 
                                                 </div>
-                                                <span className="f-14">You have selected Degen Wob #100</span>
+                                                {
+                                                    curNft && <span className="f-14">You have selected {curNft.name}</span>
+                                                }
+
                                             </>
                                     }
                                 </div>

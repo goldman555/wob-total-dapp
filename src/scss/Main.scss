@@ -16,12 +16,12 @@
 
     .left {
         width: 65%;
-        padding: 2vw;
+        // padding: 2vw;
         display: flex;
         flex-direction: column;
         row-gap: 20px;
         align-items: center;
-        justify-content: center;
+        // justify-content: center;
 
         @media (max-width: 750px) {
             width: 100%;
@@ -33,8 +33,7 @@
     }
 
     .right {
-
-        padding: 2vw;
+        // padding: 2vw;
         width: 35%;
         display: flex;
         flex-direction: column;
